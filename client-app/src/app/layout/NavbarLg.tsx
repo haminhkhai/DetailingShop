@@ -5,7 +5,7 @@ import { JsxElement } from 'typescript';
 export default function NavbarLg({ renderLinks }: any) {
     return (
         <Segment inverted attached size='mini'>
-            <Menu inverted secondary>
+            <Menu style={{opacity:"100%"}} inverted secondary>
                 {renderLinks()}
             </Menu>
         </Segment>

@@ -1,3 +1,381 @@
+.font-link {
+    font-family: 'Lato', sans-serif;
+    font-family: 'PT Serif', serif;
+}
+
+@font-face {
+    font-family: 'cbs-vehicle';
+    src: url('../../../public/assets/font/cbs-vehicle.ttf');
+}
+
+@font-face {
+    font-family: 'cbs-meta';
+    src: url('../../../public/assets/font/cbs-meta.ttf');
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background-color: rgb(35, 35, 141)
+    background-color: #ffffff;
+    transition: all .5s ease;
+}
+
+
+/* (max-width means that if screen size is smaller than maxwidth rule will apply) */
+@media screen and (max-width: 576px) {
+    #root .navbar-container {
+        opacity: 100%;
+    }
+}
+
+.navbar-container {
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+    opacity: 60%;
+}
+
+.navbar-container .inverted .secondary .menu-wrapper a.item {
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255) !important;
+    opacity: 100% !important;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 90vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+.slider-slogan-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 70%;
+    height: 300px;
+    text-align: center;
+}
+
+.slider-slogan {
+    position: relative;
+    color: aliceblue;
+    margin-top: 15%;
+    z-index: 2;
+}
+
+.package-introducing {
+    /* text-align: center; */
+    /* height: 120px;
+    margin-top: 110px; */
+}
+
+.package-introducing h2 {
+    font-size: 29px;
+}
+
+.package-introducing .packages-divider {
+    width: 100px;
+    margin: 25px auto 25px auto;
+}
+
+.package-introducing span {
+    color: rgb(25, 156, 219);
+    font-family: "PT Serif";
+    font-style: italic;
+    font-weight: 400;
+}
+
+.service-card-container {}
+
+.service-card-container .service-card {}
+
+.service-card .price-container {
+    height: 190px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    color: rgb(25, 156, 219);
+}
+
+.service-card .price-container .price-wrapper {
+    padding-top: 20px;
+}
+
+.service-card .price-container .service-name {
+    font-family: Lato;
+    font-weight: 700;
+    height: 80px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.service-card .price-container .price-currency {
+    font-size: 24px;
+    font-weight: 400;
+    position: relative;
+    top: -32px
+}
+
+.service-card .price-container .price-unit {
+    font-size: 64px;
+}
+
+.service-card .price-container .price-decimal {
+    font-size: 24px;
+    position: relative;
+    top: -30px;
+    font-weight: 400;
+}
+
+.contact-info-container {}
+
+.contact-info-container .three .column .grid {}
+
+/* .contact-info-container .grid h3 {
+    width: 80px;
+    display: inline;
+    margin-left: 50px;
+} */
+
+.contact-info-container .three .column .grid i {
+    padding-top: 20px;
+}
+
+.contact-info-container .three .column .grid span {
+    width: auto;
+    display: block;
+    /* margin-left: 120px; */
+    line-height: 30px;
+}
+
+.map-container {
+    height: 400px;
+    background-color: #505050;
+}
+
+
+.map-reveal-container {
+    text-align: center;
+    background-color: #dfdfdf !important;
+    margin-bottom: 14px;
+}
+
+.toggle-map-button {
+    display: inline-block;
+    height: 50px;
+    width: 100px;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.toggle-map-button p {
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: larger;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #767676;
+}
+
+.footer-container .grid span {
+    color: #eaeaea;
+    display: block;
+    line-height: 30px;
+}
+
+.footer-container .grid img {
+    display: block;
+    margin-top: 30px;
+}
+
+.footer-container .grid a {
+    color: #eaeaea;
+    line-height: 30px;
+}
+
+.footer-container .grid a:hover {
+    text-decoration: underline;
+}
+
+.footer-divider {
+    color: #eaeaea;
+}
+
+.end-footer-container {
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+
+.end-footer-container p {
+    color: #767676;
+}
+
+.cover-slogan-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 280px auto auto auto;
+    width: 50%;
+    height: 200px;
+    text-align: center;
+}
+
+.cover-slogan-container .slogan {
+    font-size: 48px;
+    font-weight: 900;
+    position: relative;
+    color: rgb(255, 255, 255);
+    z-index: 2;
+}
+
+.segment .cover-container {
+    background-color: #000000;
+}
+
+.cover-container .cover-image {
+    opacity: 0.6;
+    width: 100%;
+    height: 55vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+.vehicle-type-container {}
+
+.booking-container .booking-wrapper {}
+
+.vehicle-type-container .vehicle-type-wrapper .vehicle-type-button {
+    width: 100%;
+    height: 147px;
+    border-color: rgb(226, 230, 231);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.vehicle-type-container .cbs-vehicle-icon {
+    position: relative;
+    top: 20px;
+    font-family: 'cbs-vehicle';
+    font-size: 60px;
+    line-height: 60px;
+    color: rgb(168, 177, 182);
+}
+
+.vehicle-type-container .vehicle-type-wrapper .vehicle-type-button span {
+    position: relative;
+    top: 30px;
+    font-size: 15px;
+    line-height: 20px;
+    color: rgb(168, 177, 182);
+}
+
+.step-header-container {
+    display: block;
+    overflow: auto;
+    overflow: hidden;
+}
+
+.step-header-container .container {
+    overflow: auto;
+    overflow: hidden;
+}
+
+.step-header-container .step-circle {
+    float: left;
+    display: block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-radius: 100%;
+    background-color: #199CDB;
+}
+
+.step-header-container .step-circle span {
+    color: rgb(255, 255, 255);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 42px;
+}
+
+.step-header-container .step-circle span+span {
+    font-size: 16px;
+    line-height: 27px;
+}
+
+.step-header-container .step-title {
+    padding: 5px 0 0 105px;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.step-header-container .step-sub-title {
+    color: rgb(119, 119, 119);
+    font-family: 'PT Serif';
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    padding: 6px 0 0 105px;
+}
+
+.add-on-option-container {}
+
+.add-on-option-wrapper {
+    border-color: rgb(226, 230, 231);
+    border-style: solid;
+    border-width: 1px;
+    border-bottom: none;
+}
+
+@media screen and (max-width:992px) {
+    .add-on-option-wrapper {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+.add-on-option-wrapper .row {
+    min-height: 73px;
+    border-bottom-color: rgb(226, 230, 231);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.add-on-option-wrapper .add-on-option-title {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22.5px;
+}
+
+.add-on-option-wrapper .add-on-option-icon {
+    color: rgb(168, 177, 182);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22.5px;
+}
+
+.add-on-option-wrapper .add-on-option-price {
+    color: rgb(168, 177, 182);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22.5px;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.gallery-wrapper .card {
+    margin: 0 auto;
 }

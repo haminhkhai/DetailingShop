@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { Menu, Sidebar } from 'semantic-ui-react'
 
 export default function NavbarMb({ renderLinks }: any) {
@@ -43,7 +44,10 @@ export default function NavbarMb({ renderLinks }: any) {
                 borderless
                 attached
             >
-                <Menu.Item>
+                <Menu.Item
+                    as={Link}
+                    to={'/'}
+                >
                     <img src="./assets/logo.png" width="35px" height="35px" alt="" />
                 </Menu.Item>
                 <Menu.Menu position='right'>

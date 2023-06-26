@@ -1,69 +1,61 @@
 import { useMediaQuery } from 'react-responsive';
 import NavbarLg from './NavbarLg';
 import NavbarMb from './NavbarMb';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Container, Menu } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 export default function NavBar() {
-    const [activeItem, setactiveItem] = useState("logo");
-    function handleItemClick(e: SyntheticEvent, name: string) {
-        setactiveItem(name);
+    const [opacity, setOpacity] = useState("");
+
+    const isMobile = useMediaQuery({ query: '(max-width: 576px)' })
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500)
+            setOpacity("100%");
+        else
+            if (isMobile === false)
+                setOpacity("60%");
+
     }
 
     const renderLinks = () => {
-        return <Container>
+        return <Container className="menu-wrapper">
             <Menu.Item
                 name='logo'
-                active={activeItem === 'logo'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
+                as={NavLink}
+                to={'/'}
             >
                 <img src="./assets/logo.png" width="35px" height="35px" style={{ margin: "0 auto" }} alt="" />
             </Menu.Item>
             <Menu.Item
                 name='booking'
-                active={activeItem === 'booking'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
+                as={NavLink}
+                to={'/booking'}
             />
             <Menu.Item
                 name='servicePack'
-                active={activeItem === 'servicePack'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
+                as={NavLink}
+                to={'/servicePack'}
             />
             <Menu.Item
                 name='gallery'
-                active={activeItem === 'gallery'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
+                as={NavLink}
+                to={'/gallery'}
             />
             <Menu.Item
                 name='reviews'
-                active={activeItem === 'reviews'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
-            />
-            <Menu.Item
-                name='login'
-                active={activeItem === 'login'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
-                position='right'
-            />
-            <Menu.Item
-                name='register'
-                active={activeItem === 'register'}
-                onClick={(e, { name }) => handleItemClick(e, name!)}
+                as={NavLink}
+                to={'/reviews'}
             />
         </Container>
     }
 
-    const none = useMediaQuery({ query: "(max-width:576px)" })
-    const sm = useMediaQuery({ query: "(min-width:576px)" })
-    const md = useMediaQuery({ query: "(min-width:768px)" })
-    const lg = useMediaQuery({ query: "(min-width:992px)" })
-    const xl = useMediaQuery({ query: "(min-width:1200px)" })
-    const xxl = useMediaQuery({ query: "(min-width:1400px)" })
-    const size = { none, sm, md, lg, xl, xxl }
-
     return (
-        <div>
-            {size.sm ? <NavbarLg renderLinks={renderLinks} /> : <NavbarMb renderLinks={renderLinks}/>}
+        <div className='navbar-container' style={{ opacity: opacity }}>
+            {isMobile ? <NavbarMb renderLinks={renderLinks} /> : <NavbarLg renderLinks={renderLinks} />}
         </div>
     )
 }
