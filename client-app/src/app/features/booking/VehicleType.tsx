@@ -1,50 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Grid, Segment } from "semantic-ui-react";
+import { vehicleTypeOptions } from "../../models/service";
+import { Booking } from "../../models/booking";
 
-export default function VehicleType() {
+interface Props {
+    style: object;
+    setVehicleType: (vehicleType: string) => void;
+    vehicleType: string;
+}
+
+export default function VehicleType({ style, setVehicleType, vehicleType }: Props) {
     return (
-        <Segment basic style={{padding:'0', margin:'0'}} className="vehicle-type-container" >
+        <Segment basic style={style} className="vehicle-type-container" >
             <Grid container className="vehicle-type-wrapper" textAlign="center" doubling columns={6}>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
+                {/* <Grid.Column>
+                    <div data-name="minivan" onClick={()=>setTarget("minivan")} 
+                        className={target === "minivan" ? "vehicle-type-button active" : "vehicle-type-button"}>
                         <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">
                             b
                         </div>
                         <span>Regular Size Car</span>
                     </div>
-                </Grid.Column>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
-                        <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">
-                            c
+                </Grid.Column> */}
+
+                {vehicleTypeOptions.map((option) => (
+                    <Grid.Column key={option.value}>
+                        <div onClick={() => { setVehicleType(option.value) }}
+                            className={vehicleType === option.value ? "vehicle-type-button active" : "vehicle-type-button"}>
+                            <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">
+                                {option.icon}
+                            </div>
+                            <span>{option.text}</span>
                         </div>
-                        <span>Medium Size Car</span>
-                    </div>
-                </Grid.Column>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
-                        <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">e</div>
-                        <span>Compact SUV</span>
-                    </div>
-                </Grid.Column>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
-                        <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">j</div>
-                        <span>Minivan</span>
-                    </div>
-                </Grid.Column>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
-                        <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">g</div>
-                        <span>Pickup Truck</span>
-                    </div>
-                </Grid.Column>
-                <Grid.Column>
-                    <div className="vehicle-type-button">
-                        <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">k</div>
-                        <span>Cargo Truck</span>
-                    </div>
-                </Grid.Column>
+                    </Grid.Column>
+                ))}
             </Grid>
         </Segment>
     )

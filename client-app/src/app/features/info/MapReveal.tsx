@@ -22,7 +22,7 @@ export default function MapReveal() {
                     </Container>}
             </TransitionGroup>
 
-            <Segment basic style={{padding: '0em', margin: '0'}} className='map-reveal-container' fluid>
+            <Segment basic style={{padding: '0em', margin: '0'}} className='map-reveal-container'>
                 <div onClick={() => { setIsMapReveal(!isMapReveal) }} className='toggle-map-button'>
                     <Icon name='map' color='grey' size='big' />
                     <p>{isMapReveal ? 'HIDE MAP' : 'SHOW MAP'}</p>

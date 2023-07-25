@@ -48,7 +48,7 @@ export default function NavbarMb({ renderLinks }: any) {
                     as={Link}
                     to={'/'}
                 >
-                    <img src="./assets/logo.png" width="35px" height="35px" alt="" />
+                    <img src="../assets/logo.png" width="35px" height="35px" alt="" />
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item onClick={toggleSidebar}>

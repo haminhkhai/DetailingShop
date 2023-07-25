@@ -1,7 +1,7 @@
 import { useField } from 'formik';
 import React from 'react';
 import { Form, Label } from 'semantic-ui-react';
-import DatePicker, {ReactDatePickerProps} from 'react-datepicker';
+import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 
 ///////////////////////////////////////////Partial is like it's only inherit a partial of the interface
 ///////////////////////////////////////////which makes all the props optional

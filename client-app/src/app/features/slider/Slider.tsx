@@ -1,16 +1,23 @@
+import { observer } from 'mobx-react-lite';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Photo } from '../../models/photo';
 
-export default function Slider() {
+interface Props {
+    srcs: Photo[];
+}
+
+export default observer(function Slider({ srcs }: Props) {
     return (
         <>
-            <div className='slider-slogan-container'>
+            {/* <div className='slider-slogan-container'>
                 <h2 className='slider-slogan'>New car feeling,
                     without a new car payment!
                 </h2>
-            </div>
+            </div> */}
 
             <Carousel
+                className='carousel-container'
                 dynamicHeight={false}
                 showThumbs={false}
                 infiniteLoop={true}
@@ -18,20 +25,16 @@ export default function Slider() {
                 swipeable={true}
                 autoPlay={false}
                 interval={4000}
+
             >
-                <div>
-                    <img className='carousel-img' src="./assets/sliderImages/Detail1.jpg" />
-                    {/* <p className="legend">Legend 1</p> */}
-                </div>
-                <div>
-                    <img className='carousel-img' src="./assets/sliderImages/Detail2.jpeg" />
-                    {/* <p className="legend">Legend 2</p> */}
-                </div>
-                <div>
-                    <img className='carousel-img' src="./assets/sliderImages/Detail3.jpg" />
-                    {/* <p className="legend">Legend 3</p> */}
-                </div>
+                {
+                    srcs.map(src =>
+                        <div key={src.id}>
+                            <img className='carousel-img' src={src.url} />
+                        </div>
+                    )
+                }
             </Carousel>
         </>
     )
-}
+})

@@ -1,11 +1,15 @@
 import { useMediaQuery } from 'react-responsive';
 import NavbarLg from './NavbarLg';
 import NavbarMb from './NavbarMb';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Container, Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-export default function NavBar() {
+interface Props {
+    predicate: string;
+}
+
+export default function NavBar({ predicate }: Props) {
     const [opacity, setOpacity] = useState("");
 
     const isMobile = useMediaQuery({ query: '(max-width: 576px)' })
@@ -26,29 +30,40 @@ export default function NavBar() {
             <Menu.Item
                 name='logo'
                 as={NavLink}
-                to={'/'}
+                to={predicate === 'user' ? '/' : '/admin/aboutus'}
             >
-                <img src="./assets/logo.png" width="35px" height="35px" style={{ margin: "0 auto" }} alt="" />
+                <img src="../assets/logo.png"
+                    width="35px" height="35px" style={{ margin: "0 auto" }} alt="" />
             </Menu.Item>
+            {
+                predicate === 'admin' &&
+                <>
+                    <Menu.Item
+                        name='services'
+                        as={NavLink}
+                        to={'/admin/services'}
+                    />
+                    <Menu.Item
+                        name='AddOns'
+                        as={NavLink}
+                        to={'/admin/addons'}
+                    />
+                </>
+            }
             <Menu.Item
                 name='booking'
                 as={NavLink}
-                to={'/booking'}
+                to={predicate === 'user' ? '/booking' : '/admin/bookings'}
             />
             <Menu.Item
-                name='servicePack'
+                name='galleries'
                 as={NavLink}
-                to={'/servicePack'}
-            />
-            <Menu.Item
-                name='gallery'
-                as={NavLink}
-                to={'/gallery'}
+                to={predicate === 'user' ? '/gallery' : '/admin/galleries'}
             />
             <Menu.Item
                 name='reviews'
                 as={NavLink}
-                to={'/reviews'}
+                to={predicate === 'user' ? '/reviews' : '/admin/reviews'}
             />
         </Container>
     }
