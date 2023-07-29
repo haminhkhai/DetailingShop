@@ -28,7 +28,7 @@ export default function VehicleType({ style, setVehicleType, vehicleType }: Prop
                         <div onClick={() => { setVehicleType(option.value) }}
                             className={vehicleType === option.value ? "vehicle-type-button active" : "vehicle-type-button"}>
                             <div className="cbs-vehicle-icon cbs-vehicle-icon-small-car">
-                                {option.icon}
+                                {option.icons}
                             </div>
                             <span>{option.text}</span>
                         </div>

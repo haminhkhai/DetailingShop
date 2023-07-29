@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Button, Container, Grid, Comment, Header, Segment } from 'semantic-ui-react';
+import { Button, Container, Grid, Comment, Header, Segment, Image } from 'semantic-ui-react';
 import ReactStars from 'react-rating-star-with-type';
 import { useStore } from '../../stores/store';
 import ReviewForm from './ReviewForm';
 import { observer } from 'mobx-react-lite';
 import { format } from 'date-fns';
 import LoadingComponent from '../../layout/LoadingComponent';
+import Slider from '../slider/Slider';
 
 export default observer(function ReviewsShowCase() {
     const { modalStore, reviewStore: { loadReviewsShowcase, reviews, SortReviews, averageRating } } = useStore();
@@ -72,6 +73,15 @@ export default observer(function ReviewsShowCase() {
                                                 />
                                             </Comment.Text>
                                             <Comment.Text>{review.experience}</Comment.Text>
+                                        </Comment.Content>
+                                        <Comment.Content>
+                                            {review.photos?.map(photo => (
+                                                <Image key={photo.id}
+                                                    floated='left' size='small'
+                                                    src={photo.url || './assets/placeholder.png'}
+                                                    onClick={() => modalStore.openModal(<Slider srcs={review.photos!} selectedPhoto={photo.id} />, "small")}
+                                                />
+                                            ))}
                                         </Comment.Content>
                                     </Comment>
                                 </Comment.Group>

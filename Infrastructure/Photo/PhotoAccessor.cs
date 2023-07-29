@@ -33,7 +33,7 @@ namespace Infrastructure.Photo
                 {
                     File = new FileDescription(file.FileName, stream),
                     Transformation = new Transformation().Height(480).Width(854).Crop("fill"),
-                    
+        
                 };
                 var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 

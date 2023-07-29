@@ -98,10 +98,13 @@ body {
     font-weight: 400;
 }
 
-.service-card-container {}
-
-.service-card-container .service-card {
+.grid .column .service-card {
     height: 100%;
+    min-height: 480px;
+}
+
+.service-card img {
+    min-height: 138px;
 }
 
 .service-card .price-container {
@@ -419,4 +422,9 @@ body {
 .ui.fluid.card .content .description.booking-message { 
     color: #000000;
     font-size: 16px;
+}
+
+.toast-position {
+    width: 70%;
+    top: 6em !important;
 }

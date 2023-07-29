@@ -43,18 +43,18 @@ export default observer(function GalleryAdmin() {
                                 </Card.Content>
                                 <Card.Content extra>
                                     <Button
-                                        as={Link}
-                                        to={`/admin/manageGallery/${gallery.id}`}
-                                        floated='right'
-                                        content="Edit"
-                                        color='blue'
-                                    />
-                                    <Button
                                         onClick={() => handleDelete(gallery.id)}
                                         loading={loading && target === gallery.id}
                                         floated='right'
                                         content='Delete'
                                         color='red'
+                                    />
+                                    <Button
+                                        as={Link}
+                                        to={`/admin/manageGallery/${gallery.id}`}
+                                        floated='right'
+                                        content="Edit"
+                                        color='blue'
                                     />
                                 </Card.Content>
                             </Card>

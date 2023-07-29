@@ -7,6 +7,7 @@ export default class BookingStore {
     loadingInitial = false;
     loading = false;
     bookings: Booking[] = [];
+    selectedBooking: Booking | undefined = undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -51,5 +52,9 @@ export default class BookingStore {
             console.log(error);
             runInAction(() => this.loading = false);
         }
+    }
+
+    setSelectedBooking = (booking: Booking) => {
+        this.selectedBooking = booking;
     }
 }

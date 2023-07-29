@@ -69,6 +69,7 @@ export default observer(function ReviewAdmin() {
                                             Hide
                                         </Button>
                                         <Button
+                                            color="red"
                                             floated="right"
                                             name={review.id}
                                             onClick={e => handleDelete(review.id, e)}

@@ -71,6 +71,10 @@ const Account = {
     login: (user: UserFormValues) => request.post<User>('/account/login', user)
 }
 
+const Photo = {
+    uploadPhoto: 
+}
+
 const About = {
     details: () => request.get<AboutUs>('/aboutus'),
     edit: (aboutUs: AboutUs) => request.put<AboutUs>(`/aboutus`, aboutUs),
@@ -91,9 +95,11 @@ const Reviews = {
         files.forEach(file => {
             formData.append('File', file);
         });
+
         formData.append('Rating', review.rating.toString());
         formData.append('Name', review.name);
         formData.append('Experience', review.experience);
+
         return axios.post<Review>('/review', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
@@ -107,27 +113,22 @@ const Services = {
     details: (id: string) => request.get<ServiceFormValues>(`/service/${id}`),
     add: (file: Blob | null, service: Service) => {
         let formData = new FormData();
-        if (file) {
-            formData.append('File', file);
+        if (file) formData.append('File', file);
+
+        for (var key in service) {
+            formData.append(key, service[key as keyof Service])
         }
-        formData.append('VehicleType', service.vehicleType);
-        formData.append('Name', service.name);
-        formData.append('Price', service.price);
-        formData.append('Description', service.description);
         return axios.post<Service>('/service', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
     },
     edit: (file: Blob | null, service: Service) => {
         let formData = new FormData();
-        if (file) {
-            formData.append('File', file);
+        if (file) formData.append('File', file);
+
+        for (var key in service) {
+            formData.append(key, service[key as keyof Service]);
         }
-        formData.append('Id', service.id);
-        formData.append('VehicleType', service.vehicleType);
-        formData.append('Name', service.name);
-        formData.append('Description', service.description);
-        formData.append('Price', service.price);
         return axios.put<Service>('/service', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })

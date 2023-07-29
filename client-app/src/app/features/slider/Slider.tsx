@@ -2,12 +2,17 @@ import { observer } from 'mobx-react-lite';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Photo } from '../../models/photo';
+import { useEffect } from 'react';
 
 interface Props {
     srcs: Photo[];
+    selectedPhoto?: string;
 }
 
-export default observer(function Slider({ srcs }: Props) {
+export default observer(function Slider({ srcs, selectedPhoto }: Props) {
+    
+    if (selectedPhoto) srcs = [srcs.find(s => s.id === selectedPhoto)!, ...srcs];
+    
     return (
         <>
             {/* <div className='slider-slogan-container'>
@@ -28,11 +33,11 @@ export default observer(function Slider({ srcs }: Props) {
 
             >
                 {
-                    srcs.map(src =>
-                        <div key={src.id}>
+                    srcs.map(src => {
+                        return <div key={src.id}>
                             <img className='carousel-img' src={src.url} />
                         </div>
-                    )
+                    })
                 }
             </Carousel>
         </>

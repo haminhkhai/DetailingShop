@@ -25,25 +25,44 @@ export default observer(function BookingAdmin() {
                             {bookings.map(booking => (
                                 <Card key={booking.id} fluid>
                                     <Card.Content>
-                                        <Card.Header>{booking.name}</Card.Header>
-                                        <Card.Meta className='booking-info'>{booking.email} - {booking.tel}</Card.Meta>
-                                        <Card.Meta className='booking-info'>Date created: {format(booking.date!, "dd MMM yy h:mm aa")}</Card.Meta>
+                                        <Grid>
+                                            <Grid.Column width={8}>
+                                                <Header>{booking.name}</Header>
+                                            </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <Header floated='right'>{booking.total} $</Header>
+                                            </Grid.Column>
+                                        </Grid>
+                                        <Card.Meta className='booking-info'>
+                                            {booking.email} - {booking.tel}
+                                        </Card.Meta>
+                                        <Card.Meta className='booking-info'>
+                                            Date created: {format(booking.date!, "dd MMM yy h:mm aa")}
+                                        </Card.Meta>
                                     </Card.Content>
                                     <Card.Content>
                                         <Message positive attached>
                                             <Message.Header>Details</Message.Header>
                                             <Message.List>
                                                 <Message.Item>
-                                                    <Card.Meta className='booking-info'>Booking date: {format(booking.bookingDate!, "dd MMM yy h:mm aa")}</Card.Meta>
+                                                    <Card.Meta className='booking-info'>
+                                                        Booking date: {format(booking.bookingDate!, "dd MMM yy h:mm aa")}
+                                                    </Card.Meta>
                                                 </Message.Item>
                                                 <Message.Item>
-                                                    <Card.Meta className='booking-info'>Vehicle type: {booking.service.vehicleType}</Card.Meta>
+                                                    <Card.Meta className='booking-info'>
+                                                        Vehicle type: {booking.service.vehicleType}
+                                                    </Card.Meta>
                                                 </Message.Item>
                                                 <Message.Item>
-                                                    <Card.Meta className='booking-info'>Service: {booking.service.name}</Card.Meta>
+                                                    <Card.Meta className='booking-info'>
+                                                        Service: {booking.service.name}
+                                                    </Card.Meta>
                                                 </Message.Item>
                                                 <Message.Item>
-                                                    <Card.Meta className='booking-info'>Message: {booking.message}</Card.Meta>
+                                                    <Card.Meta className='booking-info'>
+                                                        Message: {booking.message}
+                                                    </Card.Meta>
                                                 </Message.Item>
                                             </Message.List>
                                         </Message>
@@ -53,7 +72,9 @@ export default observer(function BookingAdmin() {
                                                 <Message.List>
                                                     {booking.bookingAddOns.map(bookingAddOn => (
                                                         <Message.Item key={bookingAddOn.id}>
-                                                            <Card.Meta className='booking-info'>{bookingAddOn.name + " - " + bookingAddOn.price + ' $'}</Card.Meta>
+                                                            <Card.Meta className='booking-info'>
+                                                                {bookingAddOn.name + " - " + bookingAddOn.price + ' $'}
+                                                            </Card.Meta>
                                                         </Message.Item>
                                                     ))}
                                                 </Message.List>
@@ -62,6 +83,7 @@ export default observer(function BookingAdmin() {
                                     </Card.Content>
                                     <Card.Content extra>
                                         <Button
+                                            color='red'
                                             onClick={() => {
                                                 deleteBooking(booking.id);
                                                 setTarget(booking.id);
@@ -73,7 +95,6 @@ export default observer(function BookingAdmin() {
                                         </Button>
                                     </Card.Content>
                                 </Card>
-
                             ))}
                         </Card.Group>
                     </Grid.Column>

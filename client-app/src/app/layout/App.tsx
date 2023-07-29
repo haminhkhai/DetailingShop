@@ -1,5 +1,5 @@
 
-import { useLocation } from 'react-router-dom';
+import { ScrollRestoration, useLocation } from 'react-router-dom';
 import HomePage from '../features/home/HomePage';
 import { observer } from 'mobx-react-lite';
 import ModalContainer from '../common/modal/ModalContainer';
@@ -10,12 +10,13 @@ import { ToastContainer } from 'react-toastify';
 
 function App() {
   const location = useLocation();
-  window.onbeforeunload = function () {
-    window.scrollTo(0, 0);
-  }
+  // window.onbeforeunload = function () {
+  //   window.scrollTo(0, 0);
+  // }
   return (
     <>
-      <ToastContainer position='top-center' hideProgressBar theme='colored'/>
+      <ScrollRestoration />
+      <ToastContainer className="toast-position" position='top-center' hideProgressBar theme='colored' />
       <ModalContainer />
       {
         location.pathname === '/' ? <HomePage /> :

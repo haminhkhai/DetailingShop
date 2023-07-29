@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../../layout/NavBar';
 import Slider from '../slider/Slider';
 import ContactInfo from '../info/ContactInfo';
@@ -9,10 +9,63 @@ import AboutUsHome from '../about-us/AboutUsHome';
 import VehicleType from '../booking/VehicleType';
 import { Photo } from '../../models/photo';
 import ServiceUser from '../booking/ServiceUser';
+import { Booking } from '../../models/booking';
+import { Service, vehicleTypeOptions } from '../../models/service';
+import { useStore } from '../../stores/store';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
-export default function HomePage() {
-    const srcs: Photo[] = [{ id: "", url: "./assets/sliderImages/Detail1.jpg" }, { id: "", url: "./assets/sliderImages/Detail2.jpeg" }, { id: "", url: "./assets/sliderImages/Detail3.jpg" }];
+export default observer(function HomePage() {
+    const { serviceStore: { servicesByVehicleType, services, loadServices, loadingInitial },
+        bookingStore: { selectedBooking, setSelectedBooking } } = useStore();
+    const [booking, setBooking] = useState<Booking>(new Booking());
+    const srcs: Photo[] = [{ id: "", url: "./assets/sliderImages/Detail1.jpg" },
+    { id: "", url: "./assets/sliderImages/Detail2.jpeg" },
+    { id: "", url: "./assets/sliderImages/Detail3.jpg" }];
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (services.length < 1) loadServices();
+
+        if (selectedBooking) setBooking(selectedBooking);
+        else setVehicleType(vehicleTypeOptions[0].value);
+    }, [loadServices])
+
+    const setVehicleType = (vehicleType: string) => {
+        console.log("aaa")
+        setBooking(current => {
+            if (current.service.vehicleType === vehicleType)
+                return new Booking({
+                    ...current,
+                    total: "0",
+                    bookingAddOns: [],
+                    service: new Service()
+                });
+            else
+                return new Booking({
+                    ...current,
+                    total: "0",
+                    bookingAddOns: [],
+                    service: new Service({ ...current.service, id: "", vehicleType: vehicleType })
+                });
+        })
+    }
+
+    const setService = (id: string, price: string) => {
+
+        const newBooking = new Booking({
+            ...booking,
+            total: price + " $",
+            bookingAddOns: [],
+            service: new Service({ ...booking.service, id: id, price: price })
+        });
+        setSelectedBooking(newBooking);
+        navigate('/booking');
+    }
+
+
     return (
+
         <>
             <NavBar predicate='user' />
             <Slider srcs={srcs} />
@@ -24,15 +77,21 @@ export default function HomePage() {
                     <span>Which packages is the best for your vehicle</span>
                 </Container>
             </Segment>
-            <VehicleType style={{ padding: '0 0 5em 0' }} setVehicleType={function (vehicleType: string): void {
-                throw new Error('Function not implemented.');
-            }} vehicleType={''} />
-            <ServiceUser selectedService='' services={[]} predicate={'user'} setService={function (id: string): void {
-                throw new Error('Function not implemented.');
-            }} />
+
+            <VehicleType vehicleType={booking.service.vehicleType}
+                setVehicleType={setVehicleType} style={{ padding: '0' }} />
+            <Segment basic style={{ padding: '5em 0 0 0' }}>
+                <ServiceUser selectedService={booking.service.id}
+                    setService={setService}
+                    services={servicesByVehicleType(booking.service.vehicleType)}
+                    predicate={"user"}
+                />
+            </Segment>
+
+
             <ContactInfo />
             <MapReveal />
             <Footer />
         </>
     )
-}
+})

@@ -56,10 +56,10 @@ export class ServiceOptions {
 }
 
 export const vehicleTypeOptions = [
-    { text: 'Regular Size Car', value: 'regular size car', icon: 'b'},
-    { text: 'Medium Size Car', value: 'medium size car', icon: 'c' },
-    { text: 'Compact SUV', value: 'compact suv', icon: 'e' },
-    { text: 'Minivan', value: 'minivan', icon: 'j' },
-    { text: 'Pickup Truck', value: 'pickup truck', icon: 'g' },
-    { text: 'Cargo Truck', value: 'cargo truck', icon: 'k' }
+    { text: 'Regular Size Car', value: 'regular size car', icons: 'b'},
+    { text: 'Medium Size Car', value: 'medium size car', icons: 'c' },
+    { text: 'Compact SUV', value: 'compact suv', icons: 'e' },
+    { text: 'Minivan', value: 'minivan', icons: 'j' },
+    { text: 'Pickup Truck', value: 'pickup truck', icons: 'g' },
+    { text: 'Cargo Truck', value: 'cargo truck', icons: 'k' }
 ]

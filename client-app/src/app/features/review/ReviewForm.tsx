@@ -9,6 +9,8 @@ import MyTextInput from '../../common/form/MyTextInput';
 import MyTextArea from '../../common/form/MyTextArea';
 import ReactStars from 'react-rating-star-with-type';
 import ReviewMessage from '../../common/modal/ReviewMessage';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 export default observer(function ReviewForm() {
     const { reviewStore: { uploading, addReview }, modalStore } = useStore();
@@ -21,16 +23,28 @@ export default observer(function ReviewForm() {
     useEffect(() => console.log(files), [files]);
 
     function handleSubmit(review: Review) {
+        if (!rating) {
+            toast.error("Please rate your experience");
+            return;
+        }
+
         review.rating = rating;
         addReview(files, review).then(() => {
-            modalStore.openModal(<ReviewMessage close={modalStore.closeModal}/>, "tiny")
+            toast.info("Thanks for reviewing!")
+            modalStore.closeModal();
+            //modalStore.openModal(<ReviewMessage close={modalStore.closeModal} />, "tiny")
         });
     }
+
+    const validationSchema = Yup.object({
+        name: Yup.string().required("Your name is required")
+    })
 
     return (
         <Segment.Group>
             <Segment basic clearing>
                 <Formik
+                    validationSchema={validationSchema}
                     initialValues={reviewForm}
                     onSubmit={(values) => handleSubmit(values)}
                 >
