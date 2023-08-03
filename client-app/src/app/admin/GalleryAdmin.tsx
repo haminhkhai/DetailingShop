@@ -10,7 +10,7 @@ export default observer(function GalleryAdmin() {
     const [target, setTarget] = useState("");
 
     useEffect(() => {
-        if (galleries.length < 1) loadGalleries();
+        if (galleries.length <= 1) loadGalleries();
     }, [loadGalleries])
 
     const handleDelete = (id: string) => {
@@ -21,7 +21,7 @@ export default observer(function GalleryAdmin() {
     return (
         <Segment.Group>
             <Segment basic>
-                <Grid container stackable doubling columns={4}>
+                <Grid stackable doubling columns={4}>
                     <Grid.Column textAlign='left' width={8}>
                         <Header as='h2'>Galleries</Header>
                     </Grid.Column>

@@ -7,11 +7,15 @@ import { useEffect } from 'react';
 interface Props {
     srcs: Photo[];
     selectedPhoto?: string;
+    predicate: string;
 }
 
-export default observer(function Slider({ srcs, selectedPhoto }: Props) {
+export default observer(function Slider({ srcs, selectedPhoto, predicate}: Props) {
     
-    if (selectedPhoto) srcs = [srcs.find(s => s.id === selectedPhoto)!, ...srcs];
+    if (selectedPhoto) {
+        srcs = [srcs.find(s => s.id === selectedPhoto)!, 
+            ...srcs.filter(s => s.id !== selectedPhoto)];
+    }
     
     return (
         <>
@@ -35,7 +39,7 @@ export default observer(function Slider({ srcs, selectedPhoto }: Props) {
                 {
                     srcs.map(src => {
                         return <div key={src.id}>
-                            <img className='carousel-img' src={src.url} />
+                            <img className={predicate === 'carousel' ? 'carousel-img' : 'gallery-img' } src={src.url} />
                         </div>
                     })
                 }

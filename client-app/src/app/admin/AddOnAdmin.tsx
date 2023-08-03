@@ -13,7 +13,7 @@ export default observer(function AddOnAdmin() {
     const [target, setTarget] = useState("");
 
     useEffect(() => {
-        if (addOns.length < 1) {
+        if (addOns.length <= 1) {
             loadAddOns().then(() => setAddOnsByVehicleType('regular size car'));
 
         };

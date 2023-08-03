@@ -25,7 +25,7 @@ export default observer(function HomePage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (services.length < 1) loadServices();
+        if (services.length <= 1) loadServices();
 
         if (selectedBooking) setBooking(selectedBooking);
         else setVehicleType(vehicleTypeOptions[0].value);
@@ -68,7 +68,7 @@ export default observer(function HomePage() {
 
         <>
             <NavBar predicate='user' />
-            <Slider srcs={srcs} />
+            <Slider predicate='carousel' srcs={srcs} />
             <AboutUsHome />
             <Segment className='package-introducing' basic style={{ padding: '0em 0em 5em 0em' }}>
                 <Container text textAlign='center'>

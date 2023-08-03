@@ -1,41 +1,56 @@
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Header, Image, Segment } from "semantic-ui-react";
+import { Button, Container, Header, Image, Progress, Segment } from "semantic-ui-react";
 import MyTextInput from "../common/form/MyTextInput";
 import MyTextArea from "../common/form/MyTextArea";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
 import PhotoUploadWidget from "../common/imageUpload/PhotoUploadWidget";
+import * as Yup from 'yup';
 
 export default observer(function AboutUsAdmin() {
-    const { aboutUsStore: { loadAboutUs, editAboutUs, aboutUs, uploading, uploadPhoto } } = useStore();
+    const { aboutUsStore: { loadAboutUs, editAboutUs, aboutUs,
+        uploading, progress, uploadPhoto, } } = useStore();
     const [addPhotoMode, setAddPhotoMode] = useState(false);
 
     function handlePhotoUpload(file: Blob) {
-        uploadPhoto(file).then(()=>setAddPhotoMode(false));
+        uploadPhoto(file).then(() => setAddPhotoMode(false));
     }
 
     useEffect(() => {
         loadAboutUs();
     }, [loadAboutUs]);
+
+    const validationSchema = Yup.object({
+        header: Yup.string().required("Header is required"),
+        body: Yup.string().required("Description is required")
+    })
+
     return (
         <>
             <Segment.Group>
                 <Segment clearing>
+                    {progress > 0 && <Progress percent={progress} attached='top' />}
                     <Header as='h2'>About us</Header>
                     <Formik
+                        validationSchema={validationSchema}
                         enableReinitialize
                         initialValues={aboutUs}
                         onSubmit={(values, { setSubmitting }) => {
                             editAboutUs(values).then(() => setSubmitting(false));
                         }}
                     >
-                        {({ isSubmitting }) => (
+                        {({ isSubmitting, isValid, dirty }) => (
                             <Form className="ui form large">
                                 <MyTextInput placeholder="Header" name="header" />
                                 <MyTextArea placeholder="Description" name="body" rows={4} />
 
-                                <Button positive floated="right" type="submit" content="Save" loading={isSubmitting} />
+                                <Button
+                                    disabled={isSubmitting || !isValid || !dirty}
+                                    positive floated="right"
+                                    type="submit" content="Save"
+                                    loading={isSubmitting}
+                                />
                             </Form>
                         )}
                     </Formik>

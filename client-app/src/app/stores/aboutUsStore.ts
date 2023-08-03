@@ -4,6 +4,7 @@ import agent from "../api/agent";
 
 export default class AboutUsStore {
     aboutUs: AboutUs = new AboutUs();
+    progress = 0;
     uploading = false;
 
     constructor() {
@@ -28,23 +29,30 @@ export default class AboutUsStore {
         }
     }
 
+    setProgress = (progress: number) => {
+        this.progress = progress;
+    }
+
     uploadPhoto = async (file: Blob) => {
         this.uploading = true;
         try {
-            const response = await agent.About.uploadPhoto(file);
-            const photo = response.data;
+            const responsePhoto = await agent.Photos.uploadPhoto(file, this.setProgress);
+            await agent.About.addPhoto(responsePhoto);
+            this.setProgress(100);
             runInAction(() => {
                 if (this.aboutUs) {
-                    this.aboutUs.image = photo.url;
-                    this.aboutUs.imageId = photo.id;
-                    console.log(this.aboutUs.image);
-                    console.log(response.data);
+                    this.aboutUs.image = responsePhoto.url;
+                    this.aboutUs.imageId = responsePhoto.public_id;
                 }
+                this.progress = 0;
                 this.uploading = false;
             })
         } catch (error) {
             console.log(error);
-            runInAction(() => this.uploading = false);
+            runInAction(() => {
+                this.uploading = false;
+                this.progress = 0;
+            });
         }
     }
 }

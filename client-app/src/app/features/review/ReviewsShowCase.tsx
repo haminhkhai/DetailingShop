@@ -76,10 +76,11 @@ export default observer(function ReviewsShowCase() {
                                         </Comment.Content>
                                         <Comment.Content>
                                             {review.photos?.map(photo => (
-                                                <Image key={photo.id}
+                                                <Image style={{cursor:'pointer'}} key={photo.id}
                                                     floated='left' size='small'
                                                     src={photo.url || './assets/placeholder.png'}
-                                                    onClick={() => modalStore.openModal(<Slider srcs={review.photos!} selectedPhoto={photo.id} />, "small")}
+                                                    onClick={() => modalStore.openModal(
+                                                        <Slider predicate="gallery" srcs={review.photos!} selectedPhoto={photo.id} />, "small")}
                                                 />
                                             ))}
                                         </Comment.Content>

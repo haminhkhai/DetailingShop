@@ -25,8 +25,8 @@ export default observer(function BookingDashboard() {
     const [booking, setBooking] = useState<Booking>(new Booking());
 
     useEffect(() => {
-        if (services.length < 1) loadServices();
-        if (addOns.length < 1) loadAddOns();
+        if (services.length <= 1) loadServices();
+        if (addOns.length <= 1) loadAddOns();
         if (selectedBooking) setBooking(selectedBooking);
     }, [loadServices, loadAddOns]);
 
@@ -134,7 +134,7 @@ export default observer(function BookingDashboard() {
         name: Yup.string().required("Your name is required"),
         bookingDate: Yup.date().required("Booking date is required"),
         email: Yup.string().email().required("Your email is required"),
-        tel: Yup.string().required().matches(phoneRegExp, 'Phone number is not valid')
+        tel: Yup.string().required("Phone number is required").matches(phoneRegExp, 'Phone number is not valid')
     })
 
     if (loadingInitial) return <LoadingComponent content="Loading..." />

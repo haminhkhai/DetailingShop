@@ -19,9 +19,13 @@ export default observer(function ServiceUser({ services, predicate,
     const [target, setTarget] = useState("");
 
     return (
-        <Grid container doubling stackable columns={4} textAlign='center'>
+        <Grid container textAlign='center'>
+
+
+
+            {/* <Card.Group doubling stackable itemsPerRow={4}> */}
             {services.map(service => (
-                <Grid.Column key={service.id}>
+                <Grid.Column mobile={16} tablet={8} computer={4} key={service.id}>
                     <Card centered={true} className="service-card">
                         <Card.Content className="price-container">
                             <Card.Header
@@ -68,6 +72,9 @@ export default observer(function ServiceUser({ services, predicate,
                     </Card>
                 </Grid.Column>
             ))}
+            {/* </Card.Group> */}
+
+
         </Grid>
     )
 })

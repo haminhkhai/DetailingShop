@@ -23,7 +23,7 @@ export default observer(function AddOnFormAdmin() {
     const { id } = useParams();
 
     useEffect(() => {
-        if (services.length < 1) {
+        if (services.length <= 1) {
             loadServices();
             setServiceOptions([]);
         }

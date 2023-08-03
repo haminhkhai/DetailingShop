@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.Interfaces;
+using Application.Photos;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -16,8 +17,8 @@ namespace Application.Galleries
     {
         public class Command : IRequest<Result<Gallery>>
         {
-            public IFormFile File { get; set; }
-            public Guid Id { get; set; }
+            public PhotoDto Photo { get; set; }
+            public Guid GalleryId { get; set; }
         }
         public class Handler : IRequestHandler<Command, Result<Gallery>>
         {
@@ -32,21 +33,17 @@ namespace Application.Galleries
             {
                 var gallery = await _context.Galleries
                     .Include(g => g.Photos)
-                    .FirstOrDefaultAsync(g => g.Id == request.Id);
+                    .FirstOrDefaultAsync(g => g.Id == request.GalleryId);
 
                 if (gallery == null) return null;
                 if (gallery.Photos == null) gallery.Photos = new List<Photo>();
 
-                if (request.File != null)
+                var photo = new Photo
                 {
-                    var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
-                    var photo = new Photo
-                    {
-                        Id = photoUploadResult.PublicId,
-                        Url = photoUploadResult.Url
-                    };
-                    gallery.Photos.Add(photo);
-                }
+                    Id = request.Photo.Public_Id,
+                    Url = request.Photo.Url
+                };
+                gallery.Photos.Add(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Result<Gallery>.Success(gallery);

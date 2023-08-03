@@ -1,5 +1,7 @@
 using Application.About;
+using Application.Photos;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -15,13 +17,13 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> EditAboutUs(AboutUs aboutUs)
         {
-            return HandleResult(await Mediator.Send(new Edit.Command{ AboutUs = aboutUs }));
+            return HandleResult(await Mediator.Send(new Edit.Command { AboutUs = aboutUs }));
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditImage([FromForm] UploadImage.Command command)
+        public async Task<IActionResult> EditImage(PhotoDto photo)
         {
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await Mediator.Send(new AddPhoto.Comamnd { Photo = photo }));
         }
     }
 }

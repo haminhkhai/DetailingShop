@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Grid, Header, Segment, Image } from "semantic-ui-react";
+import { Button, Card, Grid, Header, Segment, Image, Progress } from "semantic-ui-react";
 import MyTextInput from "../common/form/MyTextInput";
 import MyTextArea from "../common/form/MyTextArea";
 import { Gallery } from "../models/gallery";
@@ -10,10 +10,12 @@ import LoadingComponent from "../layout/LoadingComponent";
 import { v4 as uuidv4 } from 'uuid';
 import { observer } from "mobx-react-lite";
 import PhotoUploadWidget from "../common/imageUpload/PhotoUploadWidget";
+import { PhotoDto } from "../models/photo";
 
 export default observer(function GalleryFormAdmin() {
     const { galleryStore:
-        { loading, loadingInitial, galleries, createGallery, loadGallery, uploadPhoto, deletePhoto } } = useStore();
+        { loading, loadingInitial, galleries, createGallery, editGallery,
+            loadGallery, uploadPhoto, deletePhoto, progress } } = useStore();
     const [gallery, setGallery] = useState<Gallery>(new Gallery());
     const navigate = useNavigate();
     const { id } = useParams();
@@ -36,7 +38,11 @@ export default observer(function GalleryFormAdmin() {
                 setSubmitting(false);
                 setValues(new Gallery());
             })
-        };
+        } else {
+            editGallery({ ...gallery, photos: undefined }).then(() => {
+                setSubmitting(false);
+            })
+        }
     }
 
     const handleUpload = async (file: Blob, id: string) => {
@@ -63,6 +69,7 @@ export default observer(function GalleryFormAdmin() {
         <>
             <Segment.Group>
                 <Segment basic clearing>
+                    {progress > 0 && <Progress attached="top" percent={progress} />}
                     <Header as='h2' content={id ? 'Edit Album' : 'Add Album'} />
                     <Formik
                         enableReinitialize

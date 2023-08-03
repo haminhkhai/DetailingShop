@@ -7,11 +7,11 @@ import LoadingComponent from "../layout/LoadingComponent";
 import { format } from "date-fns";
 
 export default observer(function ReviewAdmin() {
-    const { reviewStore: { loadReviews, reviews, setShow, loading, loadingInitial, deleteReview}, modalStore } = useStore();
+    const { reviewStore: { loadReviews, reviews, setShow, loading, loadingInitial, deleteReview }, modalStore } = useStore();
     const [target, setTarget] = useState("");
 
     useEffect(() => {
-        loadReviews();
+        if (reviews.length <= 1) loadReviews();
     }, [loadReviews])
 
     function handleSetShow(predicate: string, id: string, e: SyntheticEvent<HTMLButtonElement>) {
@@ -29,8 +29,10 @@ export default observer(function ReviewAdmin() {
     return (
         <Segment.Group>
             <Segment basic>
-                <Header as='h2'>Reviews</Header>
                 <Grid doubling stackable>
+                    <Grid.Column width={16}>
+                        <Header as='h2'>Reviews</Header>
+                    </Grid.Column>
                     {reviews.map(review => (
                         <Grid.Column width={8} key={review.id}>
                             <Card.Group>
@@ -38,7 +40,9 @@ export default observer(function ReviewAdmin() {
                                     <Card.Content>
                                         {(review.photos && review.photos.length > 0) &&
                                             <Button
-                                                onClick={() => { modalStore.openModal(<Slider srcs={review.photos!} />, "large") }}
+                                                onClick={() => {
+                                                    modalStore.openModal(<Slider predicate="gallery" srcs={review.photos!} />, "large")
+                                                }}
                                                 style={{ float: 'right', padding: '0' }}
                                                 icon="picture"
                                                 size="massive"

@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Galleries;
+using Application.Photos;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +25,16 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
-        [HttpPut]
-        public async Task<ActionResult> AddPhoto([FromForm] AddPhoto.Command command)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> AddPhoto(Guid id, PhotoDto photo)
         {
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await Mediator.Send(new AddPhoto.Command { Photo = photo, GalleryId = id }));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> EditGallery(Gallery gallery)
+        {
+            return HandleResult(await Mediator.Send(new Edit.Command { Gallery = gallery }));
         }
 
         [HttpDelete("{id}")]

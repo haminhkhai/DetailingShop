@@ -15,28 +15,38 @@ import GalleryAdmin from "../admin/GalleryAdmin";
 import GalleryFormAdmin from "../admin/GalleryFormAdmin";
 import NotFound from "../errors/NotFound";
 import ServerError from "../errors/ServerError";
+import CarouselAdmin from "../admin/CarouselAdmin";
+import CarouselFormAdmin from "../admin/CarouselFormAdmin";
+import RequireAuth from "./RequireAuth";
 
 export const routes: RouteObject[] = [
     {
         path: '/',
         element: <App />,
         children: [
+            {
+                element: <RequireAuth />, children: [
+                    { path: 'admin/carousels', element: <CarouselAdmin /> },
+                    { path: 'admin/createCarousel', element: <CarouselFormAdmin key="createCarousel" /> },
+                    { path: 'admin/manageCarousel/:id', element: <CarouselFormAdmin key="manageCarousel" /> },
+                    { path: 'admin/aboutus', element: <AboutUsAdmin /> },
+                    { path: 'admin/reviews', element: <ReviewAdmin /> },
+                    { path: 'admin/services', element: <ServiceAdmin /> },
+                    { path: 'admin/createService', element: <ServiceFormAdmin key='create' /> },
+                    { path: 'admin/manageService/:id', element: <ServiceFormAdmin key='manage' /> },
+                    { path: 'admin/addOns', element: <AddOnAdmin /> },
+                    { path: 'admin/createAddOn', element: <AddOnFormAdmin key='createAddOn' /> },
+                    { path: 'admin/manageAddOn/:id', element: <AddOnFormAdmin key='manageAddOn' /> },
+                    { path: 'admin/bookings', element: <BookingAdmin /> },
+                    { path: 'admin/galleries', element: <GalleryAdmin /> },
+                    { path: 'admin/createGallery', element: <GalleryFormAdmin key='createGallery' /> },
+                    { path: 'admin/manageGallery/:id', element: <GalleryFormAdmin key='manageGallery' /> },
+                ]
+            },
             { path: 'booking', element: <BookingDashboard /> },
             { path: 'gallery', element: <GalleryDashboard /> },
             { path: 'reviews', element: <ReviewDashboard /> },
             { path: 'login', element: <LoginForm /> },
-            { path: 'admin/aboutus', element: <AboutUsAdmin /> },
-            { path: 'admin/reviews', element: <ReviewAdmin /> },
-            { path: 'admin/services', element: <ServiceAdmin /> },
-            { path: 'admin/createService', element: <ServiceFormAdmin key='create' /> },
-            { path: 'admin/manageService/:id', element: <ServiceFormAdmin key='manage' /> },
-            { path: 'admin/addOns', element: <AddOnAdmin /> },
-            { path: 'admin/createAddOn', element: <AddOnFormAdmin key='createAddOn' /> },
-            { path: 'admin/manageAddOn/:id', element: <AddOnFormAdmin key='manageAddOn' /> },
-            { path: 'admin/bookings', element: <BookingAdmin /> },
-            { path: 'admin/galleries', element: <GalleryAdmin /> },
-            { path: 'admin/createGallery', element: <GalleryFormAdmin key='createGallery' /> },
-            { path: 'admin/manageGallery/:id', element: <GalleryFormAdmin key='manageGallery' /> },
             { path: 'not-found', element: <NotFound /> },
             { path: 'server-error', element: <ServerError /> },
             { path: '*', element: <Navigate replace to='/not-found' /> },

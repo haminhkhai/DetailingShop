@@ -11,7 +11,7 @@ export default observer(function ServiceAdmin() {
     const { serviceStore: { services, loadServices, groupServices, loadingInitial } } = useStore();
 
     useEffect(() => {
-        if (services.length < 1) loadServices();
+        if (services.length <= 1) loadServices();
     }, [loadServices])
 
     if (loadingInitial) return <LoadingComponent content="Loading services..." />

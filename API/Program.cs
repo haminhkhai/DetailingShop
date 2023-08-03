@@ -1,42 +1,21 @@
-using Application.Login;
-using Application.Interfaces;
-using Infrastructure.Photo;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using Application.Core;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Application.Bookings;
 using API.MiddleWare;
+using API.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DataContext>(
-    opt =>
-    {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-    }
-);
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy("CorsPolicy", policy =>
-    {
-        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-    });
+//every single controller endpoints is going to require authentication
+builder.Services.AddControllers(opt => {
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    opt.Filters.Add(new AuthorizeFilter(policy));
 });
-builder.Services.AddMediatR(typeof(Account.Handler));
-builder.Services.AddAutoMapper(typeof(MappingProfiles));
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<Add>();
-builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
-builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -52,8 +31,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CorsPolicy");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
+//make sure Authentication come first
+//authenticate a user is this a valid user and then what are they autorize to do come afterwards
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

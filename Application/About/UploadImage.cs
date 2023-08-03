@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Admin.Dtos;
 using Application.Core;
 using Application.Interfaces;
+using Application.Photos;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Persistence;
@@ -15,6 +15,7 @@ namespace Application.About
     {
         public class Command : IRequest<Result<PhotoDto>>
         {
+            //server upload
             public IFormFile File { get; set; }
         }
 
@@ -39,7 +40,7 @@ namespace Application.About
                 var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
                 var photoDto = new PhotoDto
                 {
-                    Id = photoUploadResult.PublicId,
+                    Public_Id = photoUploadResult.PublicId,
                     Url = photoUploadResult.Url
                 };
 

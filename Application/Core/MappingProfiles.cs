@@ -16,6 +16,7 @@ namespace Application.Core
         {
             CreateMap<Service, Service>();
             CreateMap<Service, ServiceDto>();
+            CreateMap<ServiceDto, Service>();
 
             CreateMap<AddOn, AddOn>();
             CreateMap<AddOn, AddOnDto>()
@@ -38,6 +39,9 @@ namespace Application.Core
                 .ForMember(b => b.ServiceName, m => m.MapFrom(a => a.AddOn.Service.Name))
                 .ForMember(b => b.VehicleType, m => m.MapFrom(a => a.AddOn.Service.VehicleType));
 
+            CreateMap<Gallery, Gallery>();
+
+            CreateMap<Carousel, Carousel>();
         }
     }
 }

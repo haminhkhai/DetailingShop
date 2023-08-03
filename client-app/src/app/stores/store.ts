@@ -8,20 +8,22 @@ import AddOnStore from "./addOnStore";
 import BookingStore from "./bookingStore";
 import GalleryStore from "./galleryStore";
 import CommonStore from "./commonStore";
+import { CarouselStore } from "./carouselStore";
 
-interface Store{
-    modalStore : ModalStore;
+interface Store {
+    modalStore: ModalStore;
     userStore: UserStore;
-    aboutUsStore : AboutUsStore;
-    reviewStore : ReviewStore;
-    serviceStore : ServiceStore;
-    addOnStore : AddOnStore;
+    aboutUsStore: AboutUsStore;
+    reviewStore: ReviewStore;
+    serviceStore: ServiceStore;
+    addOnStore: AddOnStore;
     bookingStore: BookingStore;
     galleryStore: GalleryStore;
+    carouselStore: CarouselStore;
     commonStore: CommonStore;
-} 
+}
 
-export const store : Store = {
+export const store: Store = {
     modalStore: new ModalStore(),
     userStore: new UserStore(),
     aboutUsStore: new AboutUsStore(),
@@ -30,7 +32,8 @@ export const store : Store = {
     addOnStore: new AddOnStore(),
     bookingStore: new BookingStore(),
     galleryStore: new GalleryStore(),
-    commonStore: new CommonStore
+    carouselStore: new CarouselStore(),
+    commonStore: new CommonStore()
 }
 
 export const StoreContext = createContext(store);

@@ -1,13 +1,15 @@
 import { makeAutoObservable, runInAction } from "mobx"
-import { Service, vehicleTypeOptions } from "../models/service";
+import { Service, ServiceFormValues, vehicleTypeOptions } from "../models/service";
 import agent from "../api/agent";
 import { toast } from "react-toastify";
+import { PhotoDto } from "../models/photo";
 
 export default class ServiceStore {
     serviceRegistry = new Map<String, Service>();
     services: Service[] = [];
     loading = false;
     loadingInitial = false;
+    progress = 0;
 
     constructor() {
         makeAutoObservable(this);
@@ -15,15 +17,28 @@ export default class ServiceStore {
 
     createService = async (file: Blob | null, service: Service) => {
         try {
-            const response = await agent.Services.add(file, service);
+            let photoDto = null;
+            if (file) {
+                photoDto = await agent.Photos.uploadPhoto(file, this.setProgress);
+                service.image = photoDto.url;
+                service.imageId = photoDto.public_id;
+            }
+            const responseService = await agent.Services.add(service);
+            this.setProgress(100);
             runInAction(() => {
-                this.services.push(response.data);
-                this.setService(response.data);
+                this.services.push(responseService);
+                this.setService(responseService);
+                this.setProgress(0);
             });
             toast.info("Saved");
         } catch (error) {
             console.log(error);
+            this.setProgress(0);
         }
+    }
+
+    setProgress = (progress: number) => {
+        this.progress = progress;
     }
 
     private getService = (id: string) => {
@@ -32,15 +47,23 @@ export default class ServiceStore {
 
     editService = async (file: Blob | null, service: Service) => {
         try {
-            const response = await agent.Services.edit(file, service)
+            if (file) {
+                const photoDto = await agent.Photos.uploadPhoto(file, this.setProgress);
+                service.imageId = photoDto.public_id;
+                service.image = photoDto.url;
+            }
+            const responseService = await agent.Services.edit(service);
+            this.setProgress(100);
             runInAction(() => {
                 var serviceIndex = this.services.indexOf(this.getService(service.id)!);
-                this.services[serviceIndex] = response.data;
-                this.serviceRegistry.set(service.id, response.data);
+                this.services[serviceIndex] = responseService;
+                this.serviceRegistry.set(service.id, responseService);
+                this.progress = 0;
             });
             toast.info("Saved");
         } catch (error) {
             console.log(error);
+            this.progress = 0;
         }
     }
 
@@ -105,6 +128,7 @@ export default class ServiceStore {
             } catch (error) {
                 console.log(error);
                 runInAction(() => this.loadingInitial = false)
+                return undefined;
             }
         }
 

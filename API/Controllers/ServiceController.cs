@@ -7,9 +7,9 @@ namespace API.Controllers
     public class ServiceController : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult> AddService([FromForm] Add.Command command)
+        public async Task<ActionResult> AddService(Service service)
         {
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await Mediator.Send(new Add.Command { Service = service }));
         }
 
         [HttpGet]
@@ -25,9 +25,9 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> EditService([FromForm] Edit.Command command)
+        public async Task<ActionResult> EditService(Service service)
         {
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await Mediator.Send(new Edit.Command { Service = service }));
         }
 
         [HttpDelete("{id}")]

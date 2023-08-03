@@ -15,6 +15,7 @@ namespace Application.Services
         public string Description { get; set; }
         public string ImageId { get; set; }
         public string Image { get; set; }
+        public bool NewPhoto { get; set; }
         public ICollection<AddOnDto> AddOns { get; set; }
     }
 }

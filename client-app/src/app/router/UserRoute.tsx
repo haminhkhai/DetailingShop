@@ -6,16 +6,16 @@ import MapReveal from "../features/info/MapReveal";
 import Footer from "../layout/footer/Footer";
 
 export default function UserRoute() {
-    return (
-        <div className='App'>
-            <NavBar predicate="user" />
-            <Container fluid style={{ margin: '0', padding: '0' }}>
-              {/* react-route package */}
-              <Outlet />
-            </Container>
-            <ContactInfo />
-            <MapReveal />
-            <Footer />
-          </div >
-    )
+  return (
+    <div className=''>
+      <NavBar predicate="user" />
+      <Container fluid style={{ margin: '0', padding: '0' }}>
+        {/* react-route package */}
+        <Outlet />
+      </Container>
+      <ContactInfo />
+      <MapReveal />
+      <Footer />
+    </div >
+  )
 }

@@ -7,12 +7,24 @@ import UserRoute from '../router/UserRoute';
 import AdminRoute from '../router/AdminRoute';
 import LoginForm from '../admin/LoginForm';
 import { ToastContainer } from 'react-toastify';
+import { useStore } from '../stores/store';
+import { useEffect } from 'react';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
+  const { commonStore, userStore } = useStore();
   const location = useLocation();
-  // window.onbeforeunload = function () {
-  //   window.scrollTo(0, 0);
-  // }
+
+  useEffect(() => {
+    if (commonStore.token) {
+      userStore.getUser().finally(() => commonStore.setAppLoaded());
+    } else {
+      commonStore.setAppLoaded();
+    }
+  }, [commonStore, userStore])
+
+  if (!commonStore.appLoaded) return <LoadingComponent content='Loading app...' />
+
   return (
     <>
       <ScrollRestoration />

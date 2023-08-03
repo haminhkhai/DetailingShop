@@ -120,6 +120,26 @@ namespace Persistence.Migrations
                     b.ToTable("BookingAddOns");
                 });
 
+            modelBuilder.Entity("Domain.Carousel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carousels");
+                });
+
             modelBuilder.Entity("Domain.Gallery", b =>
                 {
                     b.Property<Guid>("Id")

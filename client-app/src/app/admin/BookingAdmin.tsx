@@ -10,7 +10,7 @@ export default observer(function BookingAdmin() {
     const [target, setTarget] = useState("");
 
     useEffect(() => {
-        if (bookings.length < 1) loadBookings();
+        if (bookings.length <= 1) loadBookings();
     }, [loadBookings])
 
     if (loadingInitial) return <LoadingComponent content='Loading bookings...' />
@@ -18,8 +18,10 @@ export default observer(function BookingAdmin() {
     return (
         <Segment.Group>
             <Segment basic>
-                <Header as='h2' content='Bookings' />
                 <Grid doubling stackable>
+                    <Grid.Column width={16}>
+                        <Header as='h2' content='Bookings' />
+                    </Grid.Column>
                     <Grid.Column width={16}>
                         <Card.Group>
                             {bookings.map(booking => (

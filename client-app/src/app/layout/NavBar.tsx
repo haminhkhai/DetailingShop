@@ -30,7 +30,7 @@ export default function NavBar({ predicate }: Props) {
             <Menu.Item
                 name='logo'
                 as={NavLink}
-                to={predicate === 'user' ? '/' : '/admin/aboutus'}
+                to={predicate === 'user' ? '/' : '/admin/carousels'}
             >
                 <img src="../assets/logo.png"
                     width="35px" height="35px" style={{ margin: "0 auto" }} alt="" />
@@ -38,6 +38,11 @@ export default function NavBar({ predicate }: Props) {
             {
                 predicate === 'admin' &&
                 <>
+                    <Menu.Item
+                        name='about us'
+                        as={NavLink}
+                        to={'/admin/aboutus'}
+                    />
                     <Menu.Item
                         name='services'
                         as={NavLink}

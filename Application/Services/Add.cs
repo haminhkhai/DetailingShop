@@ -12,43 +12,30 @@ namespace Application.Services
     {
         public class Command : IRequest<Result<Service>>
         {
-            public IFormFile File { get; set; }
-            public string VehicleType { get; set; }
-            public string Name { get; set; }
-            public float Price { get; set; }
-            public string Description { get; set; }
+            public Service Service { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Service).SetValidator(new ServiceValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command, Result<Service>>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            public Handler(DataContext context)
             {
-                _photoAccessor = photoAccessor;
                 _context = context;
             }
             public async Task<Result<Service>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var service = new Service
-                {
-                    VehicleType = request.VehicleType,
-                    Name = request.Name,
-                    Price = request.Price,
-                    Description = request.Description
-                };
-
-                if (request.File != null)
-                {
-                    var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
-                    service.ImageId = photoUploadResult.PublicId;
-                    service.Image = photoUploadResult.Url;
-                }
-
-                _context.Services.Add(service);
+                _context.Services.Add(request.Service);
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if (result) return Result<Service>.Success(service);
+                if (result) return Result<Service>.Success(request.Service);
                 return Result<Service>.Failure("Problem adding service");
             }
         }

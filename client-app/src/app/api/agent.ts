@@ -1,13 +1,15 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { User, UserFormValues } from "../models/user";
 import { router } from "../router/Routes";
-import { AboutUs, PhotoDto } from "../models/aboutUs";
+import { AboutUs } from "../models/aboutUs";
 import { Review } from "../models/review";
 import { Service, ServiceFormValues } from "../models/service";
 import { AddOn, AddOnFormValues } from "../models/addOn";
 import { Booking } from "../models/booking";
 import { Gallery } from "../models/gallery";
 import { store } from "../stores/store";
+import { Photo, PhotoDto } from "../models/photo";
+import { Carousel } from "../models/carousel";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -18,6 +20,12 @@ const sleep = (delay: number) => {
 axios.defaults.baseURL = 'http://localhost:5000/api'
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 axios.interceptors.response.use(async response => {
     await sleep(500);
@@ -68,23 +76,32 @@ const request = {
 }
 
 const Account = {
-    login: (user: UserFormValues) => request.post<User>('/account/login', user)
+    login: (user: UserFormValues) => request.post<User>('/account/login', user),
+    current: () => request.get<User>('/account')
 }
 
-const Photo = {
-    uploadPhoto: 
+const Photos = {
+    uploadPhoto: async (file: Blob, setProgress: (progress: number) => void) => {
+        let formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'm8vcytbn');
+
+        const config = {
+            onUploadProgress: (e: any) => {
+                const { loaded, total } = e;
+                setProgress(loaded / total * 100 - 10);
+            }
+        }
+
+        const response = await axios.post<PhotoDto>('https://api.cloudinary.com/v1_1/de04qqilt/image/upload', formData, config);
+        return responseBody(response);
+    }
 }
 
 const About = {
     details: () => request.get<AboutUs>('/aboutus'),
     edit: (aboutUs: AboutUs) => request.put<AboutUs>(`/aboutus`, aboutUs),
-    uploadPhoto: (file: Blob) => {
-        let formData = new FormData();
-        formData.append('File', file);
-        return axios.post<PhotoDto>('/aboutus', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-    },
+    addPhoto: (photo: PhotoDto) => request.post('/aboutus', photo)
 }
 
 const Reviews = {
@@ -111,28 +128,8 @@ const Reviews = {
 const Services = {
     list: () => request.get<ServiceFormValues[]>('/service'),
     details: (id: string) => request.get<ServiceFormValues>(`/service/${id}`),
-    add: (file: Blob | null, service: Service) => {
-        let formData = new FormData();
-        if (file) formData.append('File', file);
-
-        for (var key in service) {
-            formData.append(key, service[key as keyof Service])
-        }
-        return axios.post<Service>('/service', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-    },
-    edit: (file: Blob | null, service: Service) => {
-        let formData = new FormData();
-        if (file) formData.append('File', file);
-
-        for (var key in service) {
-            formData.append(key, service[key as keyof Service]);
-        }
-        return axios.put<Service>('/service', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-    },
+    add: (service: Service) => request.post<Service>('/service', service),
+    edit: (service: Service) => request.put<Service>('/service', service),
     delete: (id: string) => request.del(`/service/${id}`)
 }
 
@@ -154,16 +151,18 @@ const Galleries = {
     add: (gallery: Gallery) => request.post('/gallery', gallery),
     list: () => request.get<Gallery[]>('/gallery'),
     details: (id: string) => request.get<Gallery>(`/gallery/${id}`),
-    addPhoto: (file: Blob, id: string) => {
-        let formData = new FormData();
-        formData.append("File", file);
-        formData.append("Id", id);
-        return axios.put<Gallery>('/gallery', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        }).then(responseBody)
-    },
+    addPhoto: (id: string, photo: PhotoDto) => request.put<Gallery>(`/gallery/${id}`, photo),
+    editGallery: (gallery: Gallery) => request.put('/gallery', gallery),
     deletePhoto: (id: string) => request.del(`/photo/${id}`),
     deleteGallery: (id: string) => request.del(`/gallery/${id}`)
+}
+
+const Carousels = {
+    add: (carousel: Carousel) => request.post<Carousel>('/carousel', carousel),
+    list: () => request.get<Carousel[]>('/carousel'),
+    details: (id: number) => request.get<Carousel>(`/carousel/${id}`),
+    edit: (carousel: Carousel) => request.put(`/carousel`, carousel),
+    delete: (id: number) => request.del(`/carousel/${id}`)
 }
 
 const agent = {
@@ -173,7 +172,9 @@ const agent = {
     Services,
     AddOns,
     Bookings,
-    Galleries
+    Galleries,
+    Photos,
+    Carousels
 }
 
 export default agent;

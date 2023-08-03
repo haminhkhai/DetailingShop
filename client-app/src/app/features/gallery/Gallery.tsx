@@ -10,12 +10,12 @@ export default observer(function Gallery() {
     const { modalStore, galleryStore: { loadingInitial, loadGalleries, galleries } } = useStore();
 
     useEffect(() => {
-        if (galleries.length < 1) loadGalleries();
+        if (galleries.length <= 1) loadGalleries();
     }, [loadGalleries])
 
     const handleSlider = (photos: Photo[] | undefined) => {
         if (photos) {
-            modalStore.openModal(<Slider srcs={photos} />, "fullscreen");
+            modalStore.openModal(<Slider predicate="gallery" srcs={photos} />, "large");
         }
     }
 
@@ -27,7 +27,7 @@ export default observer(function Gallery() {
                 <Grid className="gallery-wrapper"
                     container stackable doubling columns={4} textAlign='center'>
                     {galleries.map(gallery => (
-                        <Grid.Column>
+                        <Grid.Column key={gallery.id}>
                             <Card
                                 onClick={() => handleSlider(gallery.photos)}>
                                 <Image src='./assets/serviceCardImages/serviceImage1.jpg' wrapped ui={false} />

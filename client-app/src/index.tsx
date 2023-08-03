@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StoreContext.Provider value={store}>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </StoreContext.Provider>
   // <React.StrictMode>
   //   <App />

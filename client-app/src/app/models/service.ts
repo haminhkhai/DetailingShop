@@ -30,7 +30,7 @@ export class ServiceFormValues {
     imageId = "";
     image = "";
     addOns: AddOnFormValues[] = [];
-    constructor (service? : ServiceFormValues) {
+    constructor(service?: ServiceFormValues) {
         if (service) {
             this.id = service.id;
             this.vehicleType = service.vehicleType;
@@ -56,7 +56,7 @@ export class ServiceOptions {
 }
 
 export const vehicleTypeOptions = [
-    { text: 'Regular Size Car', value: 'regular size car', icons: 'b'},
+    { text: 'Regular Size Car', value: 'regular size car', icons: 'b' },
     { text: 'Medium Size Car', value: 'medium size car', icons: 'c' },
     { text: 'Compact SUV', value: 'compact suv', icons: 'e' },
     { text: 'Minivan', value: 'minivan', icons: 'j' },

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 export default class GalleryStore {
     loadingInitial = false;
     loading = false;
+    progress = 0;
     galleries: Gallery[] = [];
 
     constructor() {
@@ -17,7 +18,6 @@ export default class GalleryStore {
             await agent.Galleries.add(gallery);
             toast.info("Album created");
             runInAction(() => {
-
                 this.galleries.push(gallery);
             })
         } catch (error) {
@@ -42,7 +42,7 @@ export default class GalleryStore {
     loadGallery = async (id: string) => {
         this.loadingInitial = true;
         try {
-            const gallery = await agent.Galleries.details(id);
+            let gallery = this.galleries.find(g => g.id === id) || await agent.Galleries.details(id);
             runInAction(() => {
                 this.loadingInitial = false;
             })
@@ -55,19 +55,41 @@ export default class GalleryStore {
         }
     }
 
+    setProgress = (progress: number) => {
+        this.progress = progress;
+    }
+
     uploadPhoto = async (file: Blob, id: string) => {
         this.loading = true;
         try {
-            const gallery = await agent.Galleries.addPhoto(file, id);
+            const photo = await agent.Photos.uploadPhoto(file, this.setProgress);
+            const gallery = await agent.Galleries.addPhoto(id, photo);
+            this.setProgress(100);
             runInAction(() => {
                 this.loading = false;
                 this.galleries[this.galleries.indexOf(this.galleries.find(g => g.id === id)!)] = gallery;
+                this.progress = 0;
             })
             return gallery;
         } catch (error) {
             console.log(error);
-            runInAction(() => this.loading = false)
+            runInAction(() => {
+                this.loading = false;
+                this.progress = 0;
+            })
             return null;
+        }
+    }
+
+    editGallery = async (gallery: Gallery) => {
+        try {
+            await agent.Galleries.editGallery(gallery);
+            toast.info("Saved");
+            runInAction(() => {
+                this.galleries[this.galleries.indexOf(this.galleries.find(g => g.id === gallery.id)!)] = gallery;
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -90,7 +112,7 @@ export default class GalleryStore {
         this.loading = true;
         try {
             await agent.Galleries.deleteGallery(id);
-            runInAction(()=>{
+            runInAction(() => {
                 this.galleries = this.galleries.filter(g => g.id !== id);
                 this.loading = false;
             })

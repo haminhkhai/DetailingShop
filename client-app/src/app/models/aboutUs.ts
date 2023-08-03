@@ -24,7 +24,7 @@ export class AboutUs implements AboutUs {
     }
 }
 
-export interface PhotoDto {
-    id: string;
-    url: string;
-}
+// export interface PhotoDto {
+//     id: string;
+//     url: string;
+// }
