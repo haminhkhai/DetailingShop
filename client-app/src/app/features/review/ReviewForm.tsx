@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, Container, Grid, Header, Image, Message, MessageHeader, Segment } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Image, Message, MessageHeader, Progress, Segment } from 'semantic-ui-react';
 import PhotoWidgetDropzone from '../../common/imageUpload/PhotoWidgetDropzone';
 import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 import { Formik, Form } from 'formik';
-import { Review } from '../../models/review';
+import { Review, ReviewDto } from '../../models/review';
 import MyTextInput from '../../common/form/MyTextInput';
 import MyTextArea from '../../common/form/MyTextArea';
 import ReactStars from 'react-rating-star-with-type';
@@ -13,16 +13,16 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 export default observer(function ReviewForm() {
-    const { reviewStore: { uploading, addReview }, modalStore } = useStore();
+    const { reviewStore: { uploading, addReview, progress }, modalStore } = useStore();
     const [addPhotoMode, setAddPhotoMode] = useState(false);
     const [files, setFiles] = useState<any>([]);
-    const [reviewForm, setReviewForm] = useState<Review>(new Review());
+    const [review, setReview] = useState<ReviewDto>(new ReviewDto());
     const [rating, setRating] = useState(0);
 
     //event fire when files state change
     useEffect(() => console.log(files), [files]);
 
-    function handleSubmit(review: Review) {
+    function handleSubmit(review: ReviewDto) {
         if (!rating) {
             toast.error("Please rate your experience");
             return;
@@ -32,7 +32,6 @@ export default observer(function ReviewForm() {
         addReview(files, review).then(() => {
             toast.info("Thanks for reviewing!")
             modalStore.closeModal();
-            //modalStore.openModal(<ReviewMessage close={modalStore.closeModal} />, "tiny")
         });
     }
 
@@ -43,9 +42,10 @@ export default observer(function ReviewForm() {
     return (
         <Segment.Group>
             <Segment basic clearing>
+                {progress > 0 && <Progress percent={progress} attached='top' />}
                 <Formik
                     validationSchema={validationSchema}
-                    initialValues={reviewForm}
+                    initialValues={review}
                     onSubmit={(values) => handleSubmit(values)}
                 >
                     {({ }) => (

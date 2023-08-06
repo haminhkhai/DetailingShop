@@ -20,9 +20,6 @@ export default observer(function ServiceUser({ services, predicate,
 
     return (
         <Grid container textAlign='center'>
-
-
-
             {/* <Card.Group doubling stackable itemsPerRow={4}> */}
             {services.map(service => (
                 <Grid.Column mobile={16} tablet={8} computer={4} key={service.id}>
@@ -35,7 +32,7 @@ export default observer(function ServiceUser({ services, predicate,
                             <div className="price-wrapper">
                                 <span className="price-currency">$</span>
                                 <span className='price-unit'>{service.price}</span>
-                                <span className='price-decimal'>03</span>
+                                <span className='price-decimal'>{service.priceDecimal}</span>
                             </div>
                         </Card.Content>
                         <Image src={service.image || "../assets/placeholder-image.png"} wrapped ui={false} />

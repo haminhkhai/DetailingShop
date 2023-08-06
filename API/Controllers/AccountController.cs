@@ -22,7 +22,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await Mediator.Send(new GetUser.Query{Username = User.FindFirstValue(ClaimTypes.Name)});
-
+            //possibly null need fix
             var userDto = new UserDto 
             {
                 Username = user.Value.Username,

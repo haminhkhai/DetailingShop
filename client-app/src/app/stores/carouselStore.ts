@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { Carousel } from "../models/carousel";
 import agent from "../api/agent";
 import { toast } from "react-toastify";
+import { Photo } from "../models/photo";
 
 export class CarouselStore {
     loading = false;
@@ -111,5 +112,13 @@ export class CarouselStore {
                 this.loading = false;
             })
         }
+    }
+
+    prepareSlider = (carousels: Carousel[]) => {
+        let photos: Photo[] = [];
+        carousels.forEach(carousel => {
+            photos.push(new Photo({ id: carousel.imageId, url: carousel.image, message: carousel.message}));
+        });
+        return photos;
     }
 }

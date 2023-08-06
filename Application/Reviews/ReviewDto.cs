@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Photos;
 using Domain;
 
 namespace Application.Reviews
@@ -11,6 +12,6 @@ namespace Application.Reviews
         public int Rating { get; set; }
         public string Name { get; set; }
         public string Experience { get; set; }
-        public List<Photo> Photos { get; set; }
+        public List<PhotoDto> Photos { get; set; }
     }
 }

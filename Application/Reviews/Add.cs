@@ -1,5 +1,6 @@
 using Application.Core;
 using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,44 +12,25 @@ namespace Application.Reviews
     {
         public class Command : IRequest<Result<Review>>
         {
-            public IFormFile[] File { get; set; }
-            public string Rating { get; set; }
-            public string Name { get; set; }
-            public string Experience { get; set; }
+            public ReviewDto Review { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Review>>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
-                _photoAccessor = photoAccessor;
+                _mapper = mapper;
                 _context = context;
             }
             public async Task<Result<Review>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var review = new Review
-                {
-                    Rating = int.Parse(request.Rating),
-                    Name = request.Name,
-                    Experience = request.Experience,
-                    Date = DateTime.UtcNow,
-                    Photos = new List<Photo>()
-                };
+                var review = new Review();
+                _mapper.Map(request.Review, review);
 
-                if (request.File != null)
-                {
-                    foreach (var file in request.File)
-                    {
-                        var photoUploadResult = await _photoAccessor.AddPhoto(file);
-                        review.Photos.Add(new Photo
-                        {
-                            Id = photoUploadResult.PublicId,
-                            Url = photoUploadResult.Url
-                        });
-                    }
-                }
+                review.Date = DateTime.UtcNow;
+                review.IsShowed = false;
 
                 _context.Reviews.Add(review);
                 var result = await _context.SaveChangesAsync() > 0;

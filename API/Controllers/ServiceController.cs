@@ -1,5 +1,6 @@
 using Application.Services;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,12 +13,14 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Add.Command { Service = service }));
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> GetServices()
         {
             return HandleResult(await Mediator.Send(new List.Query { }));
         }
 
+        [AllowAnonymous]    
         [HttpGet("{id}")]
         public async Task<ActionResult> GetService(Guid id)
         {

@@ -14,25 +14,29 @@ import { Service, vehicleTypeOptions } from '../../models/service';
 import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../layout/LoadingComponent';
+import { Carousel } from 'react-responsive-carousel';
 
 export default observer(function HomePage() {
     const { serviceStore: { servicesByVehicleType, services, loadServices, loadingInitial },
-        bookingStore: { selectedBooking, setSelectedBooking } } = useStore();
+        bookingStore: { selectedBooking, setSelectedBooking },
+        carouselStore: { carousels, loadCarousels, prepareSlider } } = useStore();
     const [booking, setBooking] = useState<Booking>(new Booking());
-    const srcs: Photo[] = [{ id: "", url: "./assets/sliderImages/Detail1.jpg" },
-    { id: "", url: "./assets/sliderImages/Detail2.jpeg" },
-    { id: "", url: "./assets/sliderImages/Detail3.jpg" }];
+    const [srcs, setSrcs] = useState<Photo[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (services.length <= 1) loadServices();
-
         if (selectedBooking) setBooking(selectedBooking);
         else setVehicleType(vehicleTypeOptions[0].value);
     }, [loadServices])
 
+    useEffect(() => {
+        if (carousels.length <= 1) loadCarousels();
+        setSrcs(prepareSlider(carousels))
+    }, [carousels])
+
     const setVehicleType = (vehicleType: string) => {
-        console.log("aaa")
         setBooking(current => {
             if (current.service.vehicleType === vehicleType)
                 return new Booking({
@@ -64,11 +68,17 @@ export default observer(function HomePage() {
     }
 
 
+
+    if (loadingInitial) return <LoadingComponent content='Loading page...' />
+
+
     return (
 
         <>
             <NavBar predicate='user' />
+
             <Slider predicate='carousel' srcs={srcs} />
+
             <AboutUsHome />
             <Segment className='package-introducing' basic style={{ padding: '0em 0em 5em 0em' }}>
                 <Container text textAlign='center'>

@@ -5,15 +5,27 @@ export class Service {
     vehicleType = "";
     name = "";
     price = "0";
+    priceDecimal = "0";
     description = "";
     imageId = "";
     image = "";
     constructor(service?: Service) {
         if (service) {
+
+            // if (service.price) {
+            //     if (service.price.indexOf('.') !== -1) {
+            //         this.price = service.price.split('.')[0];
+            //         this.priceDecimal = service.price.split('.')[1];
+            //     } else {
+            //         this.price = service.price;
+            //     }
+            // }
+
             this.id = service.id;
             this.vehicleType = service.vehicleType;
             this.name = service.name;
             this.price = (service.price ? service.price : "0");
+            this.priceDecimal = (service.priceDecimal ? service.priceDecimal : "0");
             this.description = service.description;
             this.imageId = service.imageId;
             this.image = service.image;
@@ -26,16 +38,28 @@ export class ServiceFormValues {
     vehicleType = "";
     name = "";
     price = "0";
+    priceDecimal = "0";
     description = "";
     imageId = "";
     image = "";
     addOns: AddOnFormValues[] = [];
     constructor(service?: ServiceFormValues) {
         if (service) {
+
+            // if (service.price) {
+            //     if (service.price.indexOf('.') !== -1) {
+            //         this.price = service.price.split('.')[0];
+            //         this.priceDecimal = service.price.split('.')[1];
+            //     } else {
+            //         this.price = service.price;
+            //     }
+            // }
+
             this.id = service.id;
             this.vehicleType = service.vehicleType;
             this.name = service.name;
             this.price = (service.price ? service.price : "0");
+            this.priceDecimal = (service.priceDecimal ? service.priceDecimal : "0");
             this.description = service.description;
             this.imageId = service.imageId;
             this.image = service.image;

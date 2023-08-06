@@ -2,8 +2,9 @@ import { useMediaQuery } from 'react-responsive';
 import NavbarLg from './NavbarLg';
 import NavbarMb from './NavbarMb';
 import { useState } from 'react';
-import { Container, Menu } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Container, Dropdown, Menu, Image } from 'semantic-ui-react';
+import { Link, NavLink } from 'react-router-dom';
+import { useStore } from '../stores/store';
 
 interface Props {
     predicate: string;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function NavBar({ predicate }: Props) {
     const [opacity, setOpacity] = useState("");
+    const { userStore: { user, logout } } = useStore();
 
     const isMobile = useMediaQuery({ query: '(max-width: 576px)' })
 
@@ -39,37 +41,51 @@ export default function NavBar({ predicate }: Props) {
                 predicate === 'admin' &&
                 <>
                     <Menu.Item
-                        name='about us'
+                        name='ABOUT US'
                         as={NavLink}
                         to={'/admin/aboutus'}
                     />
                     <Menu.Item
-                        name='services'
+                        name='SERVICES'
                         as={NavLink}
                         to={'/admin/services'}
                     />
                     <Menu.Item
-                        name='AddOns'
+                        name='ADD-ONS'
                         as={NavLink}
                         to={'/admin/addons'}
                     />
                 </>
             }
             <Menu.Item
-                name='booking'
+                name='BOOKING'
                 as={NavLink}
                 to={predicate === 'user' ? '/booking' : '/admin/bookings'}
             />
             <Menu.Item
-                name='galleries'
+                name='GALLERIES'
                 as={NavLink}
                 to={predicate === 'user' ? '/gallery' : '/admin/galleries'}
             />
             <Menu.Item
-                name='reviews'
+                name='REVIEWS'
                 as={NavLink}
                 to={predicate === 'user' ? '/reviews' : '/admin/reviews'}
             />
+            {user &&
+                <Menu.Item position='right'>
+                    <Image src='/assets/user.png' avatar spaced='right' />
+                    <Dropdown pointing='top left' text={user ? user.username : ""}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item as={Link} to={'/admin/carousels'}
+                                text='Admin Panel' icon='setting' />
+                            <Dropdown.Item as={Link} to={'/'}
+                                text='User Page' icon='user' />
+                            <Dropdown.Item onClick={logout} text='Logout' icon='power' />
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Item>
+            }
         </Container>
     }
 

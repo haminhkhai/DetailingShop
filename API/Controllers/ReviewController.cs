@@ -1,17 +1,20 @@
 using Application.Reviews;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class ReviewController : BaseApiController
     {
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> CreateReview([FromForm] Add.Command command)
+        public async Task<IActionResult> CreateReview(ReviewDto review)
         {
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await Mediator.Send(new Add.Command { Review = review }));
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetReviews()
         {

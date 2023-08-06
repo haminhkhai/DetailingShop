@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.AddOns;
 using Application.Bookings;
+using Application.Photos;
+using Application.Reviews;
 using Application.Services;
 using AutoMapper;
 using Domain;
@@ -23,7 +25,7 @@ namespace Application.Core
                 .ForMember(b => b.ServiceId, m => m.MapFrom(a => a.Service.Id))
                 .ForMember(b => b.ServiceName, m => m.MapFrom(a => a.Service.Name))
                 .ForMember(b => b.VehicleType, m => m.MapFrom(a => a.Service.VehicleType));
-            
+
             CreateMap<BookingDto, Booking>()
                 .ForMember(b => b.BookingAddOns, opt => opt.Ignore())
                 .ForMember(b => b.Id, opt => opt.Ignore());
@@ -42,6 +44,10 @@ namespace Application.Core
             CreateMap<Gallery, Gallery>();
 
             CreateMap<Carousel, Carousel>();
+
+            CreateMap<PhotoDto, Photo>()
+                .ForMember(b => b.Id, m => m.MapFrom(a => a.Public_Id));
+            CreateMap<ReviewDto, Review>();
         }
     }
 }

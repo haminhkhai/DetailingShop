@@ -8,6 +8,7 @@ namespace API.Controllers
 {
     public class AboutUsController : BaseApiController
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> GetAboutUs()
         {

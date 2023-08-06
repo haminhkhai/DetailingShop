@@ -109,6 +109,13 @@ export default class ServiceStore {
     }
 
     private setService = (service: Service) => {
+        if (service.price) {
+            if (service.price.toString().indexOf('.') !== -1) {
+                let price = service.price.toString();
+                service.price = price.split('.')[0];
+                service.priceDecimal = price.split('.')[1];
+            }
+        }
         this.serviceRegistry.set(service.id, service);
     }
 
@@ -135,7 +142,10 @@ export default class ServiceStore {
     }
 
     servicesByVehicleType = (vehicleType: string) => {
-        return this.services.filter(v => v.vehicleType === vehicleType);
+        let filteredGroupServices = this.groupServices.filter(c => c[0] === vehicleType);
+        if (filteredGroupServices.length > 0)
+            return filteredGroupServices[0][1];
+        else return [];
     }
 
     deleteService = async (id: string) => {

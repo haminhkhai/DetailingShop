@@ -1,4 +1,4 @@
-import { Photo } from "./photo";
+import { Photo, PhotoDto } from "./photo";
 
 // export interface Review {
 //     id: string;
@@ -25,5 +25,16 @@ export class Review {
             this.experience = review.experience;
             this.photos = review.photos;
         }
+    }
+}
+
+
+export class ReviewDto {
+    rating = 0;
+    name = "";
+    experience = "";
+    photos?: PhotoDto[] = [];
+    constructor(reviewDto?: ReviewDto) {
+        Object.assign(this, reviewDto)
     }
 }

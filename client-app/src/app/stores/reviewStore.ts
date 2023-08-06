@@ -1,14 +1,16 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Review } from "../models/review";
+import { Review, ReviewDto } from "../models/review";
 import { format } from "date-fns";
 import { store } from "./store";
+import { PhotoDto } from "../models/photo";
 
 export default class ReviewStore {
 
     loading = false;
     loadingInitial = false;
     uploading = false;
+    progress = 0;
     reviews: Review[] = [];
     averageRating: string = "";
 
@@ -52,18 +54,33 @@ export default class ReviewStore {
         }
     }
 
-    addReview = async (files: Blob[], review: Review) => {
+    setProgress = (progress: number) => {
+        this.progress = progress;
+    }
+
+    addReview = async (files: Blob[], reviewDto: ReviewDto) => {
         this.uploading = true;
         try {
-            const response = await agent.Reviews.add(files, review);
-            // const reviewResponse = response.data;
+            let photos: PhotoDto[] = [];
+
+            for (let i = 0; i < files.length; i++) {
+                photos.push(await agent.Photos.uploadPhoto(files[i], this.setProgress));
+                if (i < files.length - 1) this.setProgress(100);
+            }
+
+            reviewDto.photos = photos;
+            const review = await agent.Reviews.add(reviewDto);
+            this.setProgress(100);
             runInAction(() => {
-                // console.log(reviewResponse);
-                this.uploading = false;
+                // this.reviews.push(review);
+                this.setProgress(0);
             })
         } catch (error) {
             console.log(error);
-            runInAction(() => this.uploading = false);
+            runInAction(() => {
+                this.uploading = false;
+                this.setProgress(0);
+            });
         }
     }
 

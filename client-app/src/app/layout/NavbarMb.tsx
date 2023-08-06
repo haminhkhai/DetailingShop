@@ -40,7 +40,7 @@ export default function NavbarMb({ renderLinks }: any) {
         <>
             {visible && <Overlay />}
             <Menu inverted
-                size="tiny"
+                size="large"
                 borderless
                 attached
             >
@@ -57,6 +57,7 @@ export default function NavbarMb({ renderLinks }: any) {
                 </Menu.Menu>
             </Menu>
             <Sidebar as={Menu}
+                style={{width: '280px'}}
                 animation='overlay'
                 icon='labeled'
                 inverted

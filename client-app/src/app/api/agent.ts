@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { User, UserFormValues } from "../models/user";
 import { router } from "../router/Routes";
 import { AboutUs } from "../models/aboutUs";
-import { Review } from "../models/review";
+import { Review, ReviewDto } from "../models/review";
 import { Service, ServiceFormValues } from "../models/service";
 import { AddOn, AddOnFormValues } from "../models/addOn";
 import { Booking } from "../models/booking";
@@ -10,6 +10,7 @@ import { Gallery } from "../models/gallery";
 import { store } from "../stores/store";
 import { Photo, PhotoDto } from "../models/photo";
 import { Carousel } from "../models/carousel";
+import { PaginatedResult } from "../models/pagination";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -23,12 +24,21 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
-    if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+    
+    if (token && config.headers && config.url?.indexOf('cloudinary') === -1) config.headers.Authorization = `Bearer ${token}`;
     return config;
 })
 
 axios.interceptors.response.use(async response => {
     await sleep(500);
+
+    //cook the paginated response header and return cooked response
+    const pagination = response.headers['pagination'];
+    if (pagination) {
+        response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+        return response as AxiosResponse<PaginatedResult<any>>;
+    }
+
     return response;
 }, (error: AxiosError) => {
     const { data, status, config } = error.response as AxiosResponse;
@@ -106,21 +116,7 @@ const About = {
 
 const Reviews = {
     list: () => request.get<Review[]>('/review'),
-    add: (files: Blob[], review: Review) => {
-        let formData = new FormData();
-
-        files.forEach(file => {
-            formData.append('File', file);
-        });
-
-        formData.append('Rating', review.rating.toString());
-        formData.append('Name', review.name);
-        formData.append('Experience', review.experience);
-
-        return axios.post<Review>('/review', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-    },
+    add: (reviewDto: ReviewDto) => request.post<Review>('/review', reviewDto),
     setShowReview: (id: string) => request.put(`/review/${id}`, {}),
     delete: (id: string) => request.del(`/review/${id}`)
 }
@@ -142,8 +138,9 @@ const AddOns = {
 }
 
 const Bookings = {
+    list: (params: URLSearchParams) =>
+        axios.get<PaginatedResult<Booking[]>>('/booking', { params }).then(responseBody),
     add: (booking: Booking) => request.post('/booking', booking),
-    list: () => request.get<Booking[]>('/booking'),
     delete: (id: string) => request.del(`/booking/${id}`)
 }
 
