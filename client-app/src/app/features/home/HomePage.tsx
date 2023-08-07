@@ -29,7 +29,7 @@ export default observer(function HomePage() {
         if (services.length <= 1) loadServices();
         if (selectedBooking) setBooking(selectedBooking);
         else setVehicleType(vehicleTypeOptions[0].value);
-    }, [loadServices])
+    }, [services])
 
     useEffect(() => {
         if (carousels.length <= 1) loadCarousels();

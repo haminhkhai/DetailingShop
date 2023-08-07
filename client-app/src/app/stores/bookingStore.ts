@@ -45,8 +45,8 @@ export default class BookingStore {
         try {
             const result = await agent.Bookings.list(this.axiosParams);
             result.data.forEach(booking => {
-                booking.date = new Date(booking.date + 'Z');
-                booking.bookingDate = new Date(booking.bookingDate + 'Z');
+                booking.date = new Date(booking.date!);
+                booking.bookingDate = new Date(booking.bookingDate!);
                 this.setBooking(booking);
             });
             this.setPagination(result.pagination);

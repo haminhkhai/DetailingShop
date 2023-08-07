@@ -23,8 +23,8 @@ export default observer(function BookingAdmin() {
     }
 
     useEffect(() => {
-        if (bookings.length <= 1) loadBookings();
-    }, [loadBookings])
+        if (bookings.length === 0) loadBookings();
+    }, [bookings])
 
     // if (loadingInitial && !loadingNext) return <LoadingComponent content='Loading bookings...' />
 

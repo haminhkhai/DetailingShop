@@ -23,9 +23,9 @@ export default class ReviewStore {
         try {
             const reviews = await agent.Reviews.list();
             runInAction(() => {
-                this.reviews = reviews;
+                if (reviews.length > this.reviews.length) this.reviews = reviews;
                 this.reviews.forEach(review => {
-                    review.date = new Date(review.date + 'Z');
+                    review.date = new Date(review.date);
                 });
                 this.loadingInitial = false
             });
@@ -43,7 +43,7 @@ export default class ReviewStore {
                 this.reviews = reviews.filter(r => r.isShowed);
                 this.reviews.forEach(review => {
                     this.averageRating = (this.reviews.reduce((sum, rating) => sum + rating.rating, 0) / this.reviews.length).toFixed(1)
-                    review.date = new Date(review.date + 'Z');
+                    review.date = new Date(review.date);
                     console.log(this.averageRating);
                 });
                 this.loadingInitial = false

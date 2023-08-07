@@ -72,12 +72,14 @@ export default class ServiceStore {
         try {
             const services = await agent.Services.list();
             runInAction(() => {
-                this.services = services.sort((a, b) => {
-                    return (
-                        vehicleTypeOptions.indexOf(vehicleTypeOptions.find(v => v.value === a.vehicleType)!)
-                        - vehicleTypeOptions.indexOf(vehicleTypeOptions.find(v => v.value === b.vehicleType)!)
-                    )
-                });
+                if (services.length > this.services.length) {
+                    this.services = services.sort((a, b) => {
+                        return (
+                            vehicleTypeOptions.indexOf(vehicleTypeOptions.find(v => v.value === a.vehicleType)!)
+                            - vehicleTypeOptions.indexOf(vehicleTypeOptions.find(v => v.value === b.vehicleType)!)
+                        )
+                    });
+                }
 
                 services.forEach(service => {
                     this.setService(service);

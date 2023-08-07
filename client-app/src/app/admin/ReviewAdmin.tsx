@@ -12,7 +12,7 @@ export default observer(function ReviewAdmin() {
 
     useEffect(() => {
         if (reviews.length <= 1) loadReviews();
-    }, reviews)
+    }, [reviews])
 
     function handleSetShow(predicate: string, id: string, e: SyntheticEvent<HTMLButtonElement>) {
         setShow(id);

@@ -30,7 +30,7 @@ export default class GalleryStore {
         try {
             const galleries = await agent.Galleries.list();
             runInAction(() => {
-                this.galleries = galleries;
+                if (galleries.length > this.galleries.length) this.galleries = galleries;
                 this.loadingInitial = false;
             })
         } catch (error) {

@@ -18,19 +18,19 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
-    
+
     if (token && config.headers && config.url?.indexOf('cloudinary') === -1) config.headers.Authorization = `Bearer ${token}`;
     return config;
 })
 
 axios.interceptors.response.use(async response => {
-    await sleep(500);
+    if (process.env.NODE_ENV === 'development') await sleep(500);
 
     //cook the paginated response header and return cooked response
     const pagination = response.headers['pagination'];

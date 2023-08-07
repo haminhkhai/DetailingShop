@@ -12,7 +12,7 @@ export default observer(function ServiceAdmin() {
 
     useEffect(() => {
         if (services.length <= 1) loadServices();
-    }, [loadServices])
+    }, [services])
 
     if (loadingInitial) return <LoadingComponent content="Loading services..." />
 

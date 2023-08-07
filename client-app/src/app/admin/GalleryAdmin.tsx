@@ -11,7 +11,7 @@ export default observer(function GalleryAdmin() {
 
     useEffect(() => {
         if (galleries.length <= 1) loadGalleries();
-    }, [loadGalleries])
+    }, [galleries])
 
     const handleDelete = (id: string) => {
         setTarget(id);

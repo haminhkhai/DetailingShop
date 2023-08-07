@@ -23,28 +23,28 @@ export default observer(function AddOnFormAdmin() {
     const { id } = useParams();
 
     useEffect(() => {
-        if (services.length <= 1) {
+        if (services.length === 0) {
             loadServices();
             setServiceOptions([]);
         }
-
         services.forEach(service => {
             setServiceOptions(current => [...current, new ServiceOptions(service)]);
         });
+    }, [services])
 
+    useEffect(() => {
         if (id && addOn.id === "") {
             loadAddOn(id).then((add) => {
                 setAddOn(new AddOnFormValues(add));
             });
         }
-
-    }, [loadServices, services, loadAddOn]);
+    }, [addOn]);
 
     const validationSchema = Yup.object({
         name: Yup.string().required("Add-On name is required!"),
-        price: Yup.number()
-            .typeError("Add-On price must be a number")
-            .required("Add-On price is required!")
+        price: Yup.number().typeError("Price must be a positive number")
+            .positive("Price must be a positive number")
+            .max(9999, "Price must be smaller or equal to 9999")
     })
 
     function handleFormSubmit(addOn: AddOnFormValues, setSubmitting: any, setValues: any) {
@@ -79,7 +79,7 @@ export default observer(function AddOnFormAdmin() {
                                 handleFormSubmit(values, setSubmitting, setValues)
                         }
                     >
-                        {({ handleSubmit, isSubmitting, isValid, dirty}) => (
+                        {({ handleSubmit, isSubmitting, isValid, dirty }) => (
                             <Form autoComplete='false' onSubmit={handleSubmit} className='ui form large'>
                                 <MySelectInput options={serviceOptions} placeholder='Service' name='serviceId' />
                                 <MyTextInput placeholder='Name' name='name' />

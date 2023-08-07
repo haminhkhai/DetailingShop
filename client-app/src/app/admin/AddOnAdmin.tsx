@@ -15,9 +15,8 @@ export default observer(function AddOnAdmin() {
     useEffect(() => {
         if (addOns.length <= 1) {
             loadAddOns().then(() => setAddOnsByVehicleType('regular size car'));
-
         };
-    }, [loadAddOns, groupAddOns])
+    }, [addOns])
 
     function handleDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);

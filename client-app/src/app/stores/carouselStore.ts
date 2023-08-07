@@ -65,7 +65,7 @@ export class CarouselStore {
         try {
             const carousels = await agent.Carousels.list();
             runInAction(() => {
-                this.carousels = carousels;
+                if (carousels.length > this.carousels.length) this.carousels = carousels;
                 this.loadingInitial = false;
             })
         } catch (error) {
@@ -117,7 +117,7 @@ export class CarouselStore {
     prepareSlider = (carousels: Carousel[]) => {
         let photos: Photo[] = [];
         carousels.forEach(carousel => {
-            photos.push(new Photo({ id: carousel.imageId, url: carousel.image, message: carousel.message}));
+            photos.push(new Photo({ id: carousel.imageId, url: carousel.image, message: carousel.message }));
         });
         return photos;
     }

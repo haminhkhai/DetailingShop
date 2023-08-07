@@ -26,9 +26,12 @@ export default observer(function BookingDashboard() {
 
     useEffect(() => {
         if (services.length <= 1) loadServices();
-        if (addOns.length <= 1) loadAddOns();
         if (selectedBooking) setBooking(selectedBooking);
-    }, [loadServices, loadAddOns]);
+    }, [services]);
+
+    useEffect(() => {
+        if (addOns.length <= 1) loadAddOns();
+    }, [addOns])
 
     const setVehicleType = (vehicleType: string) => {
 

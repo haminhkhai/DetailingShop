@@ -11,7 +11,7 @@ export default observer(function CarouselAdmin() {
 
     useEffect(() => {
         if (carousels.length <= 1) loadCarousels();
-    }, [carousels, loadCarousels])
+    }, [loadCarousels])
 
     if (loadingInitial) return <LoadingComponent content="Loading slider..." />
 

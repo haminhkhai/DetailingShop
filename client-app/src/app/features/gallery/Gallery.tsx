@@ -11,7 +11,7 @@ export default observer(function Gallery() {
 
     useEffect(() => {
         if (galleries.length <= 1) loadGalleries();
-    }, [loadGalleries])
+    }, [galleries])
 
     const handleSlider = (photos: Photo[] | undefined) => {
         if (photos) {

@@ -19,12 +19,7 @@ export default class AddOnStore {
         try {
             const addOns = await agent.AddOns.list();
             runInAction(() => {
-                this.addOns = addOns;
-
-                // addOns.forEach(addOn => {
-                //     this.setAddOn(addOn);
-                // });
-
+                if (addOns.length > this.addOns.length) this.addOns = addOns;
                 this.loadingInitial = false
             });
         } catch (error) {
