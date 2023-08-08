@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Grid, Header, Label, Progress, Segment } from 'semantic-ui-react';
 import MyTextInput from '../common/form/MyTextInput';
 import PhotoWidgetDropzone from '../common/imageUpload/PhotoWidgetDropzone';
@@ -8,7 +8,6 @@ import { Link, useParams } from 'react-router-dom';
 import { Carousel } from '../models/carousel';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
-import { number } from 'yup';
 import { SUPPORTED_FORMATS } from '../models/photo';
 
 export default observer(function CarouselFormAdmin() {
@@ -20,7 +19,7 @@ export default observer(function CarouselFormAdmin() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fileValidation(files);
+        if (files.length > 0) fileValidation(files);
         //dispose file.preview after using
         return () => {
             files.forEach((file: any) => URL.revokeObjectURL(file.preview))
@@ -30,7 +29,6 @@ export default observer(function CarouselFormAdmin() {
     useEffect(() => {
         if (id) {
             loadCarousel(Number.parseInt(id)).then((carousel) => {
-                console.log(new Carousel(carousel));
                 setCarousel(new Carousel(carousel));
                 setFiles([{ preview: carousel?.image, imageId: carousel?.imageId, type: 'image/jpeg' }]);
             })
@@ -40,6 +38,12 @@ export default observer(function CarouselFormAdmin() {
     const handleSubmit = (carousel: Carousel,
         setSubmitting: (isSubmitting: boolean) => void,
         setValues: (carousel: Carousel) => void) => {
+
+        if (files.length == 0) {
+            setError("Please choose a image to upload");
+            setSubmitting(false);
+            return;
+        }
 
         if (cropper && cropper.getCroppedCanvas() && files[0].imageId !== carousel.imageId) {
             cropper.getCroppedCanvas().toBlob(blob => {
@@ -101,12 +105,11 @@ export default observer(function CarouselFormAdmin() {
                     {({ isSubmitting }) => (
                         <Form className='ui form large'>
                             <MyTextInput placeholder='Text' name='message' />
-                            <Grid style={{ padding: '1em 0 0 0' }}>
-                                <Grid.Column width={5}>
+                            <Grid stackable style={{ padding: '1em 0 0 0' }}>
+                                <Grid.Column width={6}>
                                     <Header sub color='teal' content='Step 1 - Add Photo' />
                                     <PhotoWidgetDropzone setFiles={setFiles} />
                                 </Grid.Column>
-                                <Grid.Column width={1} />
                                 <Grid.Column width={4}>
                                     <Header sub color='teal' content='Step 2 - Resize image' />
                                     {files && files.length > 0 && (

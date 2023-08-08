@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, Sidebar } from 'semantic-ui-react'
 
-export default function NavbarMb({ renderLinks }: any) {
+interface Props {
+    predicate: string;
+    renderLinks: any;
+}
+
+export default function NavbarMb({ predicate, renderLinks }: Props) {
 
     function Overlay() {
         return (
@@ -46,9 +51,9 @@ export default function NavbarMb({ renderLinks }: any) {
             >
                 <Menu.Item
                     as={Link}
-                    to={'/'}
+                    to={predicate === 'user' ? '/' : '/admin/carousels'}
                 >
-                    <img src="../assets/logo.png" width="35px" height="35px" alt="" />
+                    <img src="/assets/logo.png" width="35px" height="35px" alt="" />
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item onClick={toggleSidebar}>
@@ -57,7 +62,7 @@ export default function NavbarMb({ renderLinks }: any) {
                 </Menu.Menu>
             </Menu>
             <Sidebar as={Menu}
-                style={{width: '280px'}}
+                style={{ width: '280px' }}
                 animation='overlay'
                 icon='labeled'
                 inverted
@@ -65,7 +70,7 @@ export default function NavbarMb({ renderLinks }: any) {
                 visible={visible}
                 width='thin'
             >
-                {renderLinks()}
+                {renderLinks(toggleSidebar)}
             </Sidebar>
         </>
     )

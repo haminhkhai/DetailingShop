@@ -1,4 +1,3 @@
-import React from "react";
 import CoverSlogan from "../cover slogan/CoverSlogan";
 import ReviewsShowCase from "./ReviewsShowCase";
 

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Card, Grid, Header, Message } from 'semantic-ui-react';
 import { Booking } from '../models/booking';
 import { useStore } from '../stores/store';

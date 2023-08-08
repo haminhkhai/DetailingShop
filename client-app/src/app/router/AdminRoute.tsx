@@ -1,11 +1,8 @@
-import { Container, Segment } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import NavBar from "../layout/NavBar";
 import { Outlet } from "react-router-dom";
-import { useStore } from "../stores/store";
-import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 
-export default observer(function AdminRoute() {
+export default function AdminRoute() {
     return (
         <div className=''>
             <NavBar predicate="admin" />
@@ -15,4 +12,4 @@ export default observer(function AdminRoute() {
             </Container>
         </div>
     )
-})
+}

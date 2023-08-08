@@ -1,8 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores/store";
-import { Modal, Image, Container, ModalProps } from "semantic-ui-react";
-import Slider from "../../features/slider/Slider";
-import { EnumType } from "typescript";
+import { Modal } from "semantic-ui-react";
 
 export default observer(function ModalContainer() {
 

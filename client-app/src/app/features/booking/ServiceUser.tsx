@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Card, Grid, Icon, Image, Segment } from "semantic-ui-react";
+import { useState } from "react";
+import { Button, Card, Grid, Icon, Image } from "semantic-ui-react";
 import { Service } from "../../models/service";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -19,10 +19,10 @@ export default observer(function ServiceUser({ services, predicate,
     const [target, setTarget] = useState("");
 
     return (
-        <Grid container textAlign='center'>
+        <>
             {/* <Card.Group doubling stackable itemsPerRow={4}> */}
             {services.map(service => (
-                <Grid.Column mobile={16} tablet={8} computer={4} key={service.id}>
+                <Grid.Column textAlign="center" mobile={16} tablet={5} computer={4} key={service.id}>
                     <Card centered={true} className="service-card">
                         <Card.Content className="price-container">
                             <Card.Header
@@ -35,10 +35,10 @@ export default observer(function ServiceUser({ services, predicate,
                                 <span className='price-decimal'>{service.priceDecimal}</span>
                             </div>
                         </Card.Content>
-                        <Image src={service.image || "../assets/placeholder-image.png"} wrapped ui={false} />
+                        <Image src={service.image || "/assets/placeholder-image.png"} wrapped ui={false} />
                         <Card.Content>
                             <Card.Description>
-                                {service.description}
+                                <p style={{ whiteSpace: 'pre-line' }}>{service.description}</p>
                             </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
@@ -70,8 +70,6 @@ export default observer(function ServiceUser({ services, predicate,
                 </Grid.Column>
             ))}
             {/* </Card.Group> */}
-
-
-        </Grid>
+        </>
     )
 })

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Grid, Header, Segment, Image } from "semantic-ui-react";
 import { useStore } from "../../stores/store";
 import { observer } from "mobx-react-lite";
-import { AboutUs } from "../../models/aboutUs";
 
 export default observer(function AboutUsHome() {
     const { aboutUsStore: { loadAboutUs, aboutUs} } = useStore();

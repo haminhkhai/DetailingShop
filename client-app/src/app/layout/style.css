@@ -26,10 +26,17 @@ body {
 }
 
 
+
+
 /* (max-width means that if screen size is smaller than maxwidth rule will apply) */
 @media screen and (max-width: 576px) {
     #root .navbar-container {
         opacity: 100%;
+    }
+
+    .ui.form .field input,
+    .ui.form .field textarea {
+        font-size: 16px;
     }
 }
 
@@ -56,7 +63,7 @@ body {
     width: 100%;
     height: 90vh;
     object-fit: cover;
-    object-position: top;
+    object-position: center;
     opacity: 0.6;
 }
 
@@ -123,7 +130,7 @@ body {
 .grid .column .service-card {
     height: 100%;
     min-height: 470px;
-    min-width: 220px;
+    min-width: 210px;
 }
 
 .service-card img {
@@ -131,14 +138,16 @@ body {
 
 }
 
-.service-card .price-container {
+.grid .service-card .price-container {
     max-height: 212px;
+    min-height: 212px;
     height: 190px;
     font-family: Lato;
     font-style: normal;
     font-weight: 300;
     letter-spacing: normal;
     color: rgb(25, 156, 219);
+    border-bottom: 1px solid rgba(34, 36, 38, .1);
 }
 
 .service-card .price-container .price-wrapper {
@@ -261,10 +270,16 @@ body {
     right: 0;
     top: 0;
     bottom: 0;
-    margin: 280px auto auto auto;
-    width: 50%;
+    margin: 230px auto auto auto;
+    width: 70%;
     height: 200px;
     text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+    .cover-slogan-container {
+        margin: 37% auto auto auto;
+    }
 }
 
 .cover-slogan-container .slogan {
@@ -275,7 +290,7 @@ body {
     z-index: 2;
 }
 
-.container .cover-container {
+.segments .segment.cover-container {
     background-color: #000000;
 }
 

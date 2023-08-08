@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import NavBar from '../../layout/NavBar';
 import Slider from '../slider/Slider';
 import ContactInfo from '../info/ContactInfo';
 import MapReveal from '../info/MapReveal';
-import { Container, Divider, Header, Segment } from 'semantic-ui-react';
+import { Container, Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import Footer from '../../layout/footer/Footer';
 import AboutUsHome from '../about-us/AboutUsHome';
 import VehicleType from '../booking/VehicleType';
@@ -15,7 +15,6 @@ import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import LoadingComponent from '../../layout/LoadingComponent';
-import { Carousel } from 'react-responsive-carousel';
 
 export default observer(function HomePage() {
     const { serviceStore: { servicesByVehicleType, services, loadServices, loadingInitial },
@@ -32,8 +31,8 @@ export default observer(function HomePage() {
     }, [services])
 
     useEffect(() => {
-        if (carousels.length <= 1) loadCarousels();
-        setSrcs(prepareSlider(carousels))
+        if (carousels.length < 1) loadCarousels();
+        // setSrcs(prepareSlider(carousels))
     }, [carousels])
 
     const setVehicleType = (vehicleType: string) => {
@@ -77,7 +76,7 @@ export default observer(function HomePage() {
         <>
             <NavBar predicate='user' />
 
-            <Slider predicate='carousel' srcs={srcs} />
+            <Slider predicate='carousel' srcs={prepareSlider(carousels)} />
 
             <AboutUsHome />
             <Segment className='package-introducing' basic style={{ padding: '0em 0em 5em 0em' }}>
@@ -91,11 +90,13 @@ export default observer(function HomePage() {
             <VehicleType vehicleType={booking.service.vehicleType}
                 setVehicleType={setVehicleType} style={{ padding: '0' }} />
             <Segment basic style={{ padding: '5em 0 0 0' }}>
+                <Grid container>
                 <ServiceUser selectedService={booking.service.id}
                     setService={setService}
                     services={servicesByVehicleType(booking.service.vehicleType)}
                     predicate={"user"}
                 />
+                </Grid>
             </Segment>
 
 

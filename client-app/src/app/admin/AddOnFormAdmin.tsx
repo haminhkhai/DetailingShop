@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Header, Segment } from 'semantic-ui-react';
 import MySelectInput from '../common/form/MySelectInput';
 import MyTextArea from '../common/form/MyTextArea';

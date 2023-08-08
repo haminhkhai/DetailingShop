@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Card, Grid, Header, Segment, Image } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
@@ -18,17 +18,18 @@ export default observer(function CarouselAdmin() {
     return (
         <Segment.Group>
             <Segment>
-                <Grid columns={3}>
-                    <Grid.Column width={8}>
-                        <Header as='h2' content='Homepage slider' />
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Button as={Link} to='/admin/createCarousel' floated="right" basic content='Add photo' />
-                    </Grid.Column>
-
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={8} >
+                            <Header as='h2' content='Homepage slider' />
+                        </Grid.Column>
+                        <Grid.Column width={8}>
+                            <Button as={Link} to='/admin/createCarousel' floated="right" basic content='Add photo' />
+                        </Grid.Column>
+                    </Grid.Row>
                     {carousels.map(carousel => (
-                        <Grid.Column key={carousel.id}>
-                            <Card>
+                        <Grid.Column textAlign="center" computer={4} tablet={5} mobile={16} key={carousel.id}>
+                            <Card style={{ margin: '0 auto' }}>
                                 <Image
                                     src={carousel.image}
                                     wrapped ui={false}
@@ -58,7 +59,6 @@ export default observer(function CarouselAdmin() {
                             </Card>
                         </Grid.Column>
                     ))}
-
                 </Grid>
             </Segment>
         </Segment.Group>

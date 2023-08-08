@@ -12,7 +12,7 @@ export default observer(function ReviewsShowCase() {
     const { modalStore, reviewStore: { loadReviewsShowcase, reviews, SortReviews, averageRating } } = useStore();
 
     useEffect(() => {
-        loadReviewsShowcase();
+        if (reviews.length < 1) loadReviewsShowcase();
     }, [loadReviewsShowcase])
 
     return (

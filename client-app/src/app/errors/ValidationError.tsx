@@ -1,4 +1,3 @@
-import { error } from "console";
 import { Message } from "semantic-ui-react";
 
 interface Props {

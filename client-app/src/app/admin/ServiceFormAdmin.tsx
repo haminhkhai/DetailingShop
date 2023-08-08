@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Button, Grid, Header, Label, Progress, Segment } from "semantic-ui-react";
 import { useStore } from "../stores/store";
-import { Service, ServiceFormValues, vehicleTypeOptions, } from "../models/service";
+import { Service, vehicleTypeOptions, } from "../models/service";
 import MyTextInput from "../common/form/MyTextInput";
 import MySelectInput from "../common/form/MySelectInput";
 import MyTextArea from "../common/form/MyTextArea";
@@ -56,6 +56,7 @@ export default observer(function ServiceFormAdmin() {
                     createService(blob, { ...service, id: uuidv4() }).then(() => {
                         setSubmitting(false);
                         setValues({ ...new Service(), vehicleType: service.vehicleType });
+                        setCropper(undefined);
                         setFiles([]);
                     });
                 else
@@ -109,12 +110,11 @@ export default observer(function ServiceFormAdmin() {
                                 <MyTextInput placeholder='Name' name='name' />
                                 <MyTextInput placeholder='Price' name='price' />
                                 <MyTextArea placeholder='Description' name='description' rows={3} />
-                                <Grid style={{ padding: '1em 0 0 0' }}>
-                                    <Grid.Column width={4}>
+                                <Grid stackable style={{ padding: '1em 0 0 0' }}>
+                                    <Grid.Column width={6}>
                                         <Header sub color='teal' content='Step 1 - Add Photo' />
                                         <PhotoWidgetDropzone setFiles={setFiles} />
                                     </Grid.Column>
-                                    <Grid.Column width={1} />
                                     <Grid.Column width={4}>
                                         <Header sub color='teal' content='Step 2 - Resize image' />
                                         {files && files.length > 0 && (

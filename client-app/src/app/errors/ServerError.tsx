@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Header, Segment } from 'semantic-ui-react'
 import { useStore } from '../stores/store'
 import { observer } from 'mobx-react-lite';

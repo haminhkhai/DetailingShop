@@ -1,7 +1,7 @@
 import { Card, Grid, Header, Segment, Button } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
-import { HtmlHTMLAttributes, SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import Slider from "../features/slider/Slider";
 import LoadingComponent from "../layout/LoadingComponent";
 import { format } from "date-fns";

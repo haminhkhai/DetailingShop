@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Grid, Header, Segment, Image, Progress } from "semantic-ui-react";
 import MyTextInput from "../common/form/MyTextInput";
 import MyTextArea from "../common/form/MyTextArea";
@@ -10,7 +10,6 @@ import LoadingComponent from "../layout/LoadingComponent";
 import { v4 as uuidv4 } from 'uuid';
 import { observer } from "mobx-react-lite";
 import PhotoUploadWidget from "../common/imageUpload/PhotoUploadWidget";
-import { PhotoDto } from "../models/photo";
 
 export default observer(function GalleryFormAdmin() {
     const { galleryStore:

@@ -8,13 +8,12 @@ import { Booking } from "../../models/booking";
 import { Service } from "../../models/service";
 import ServiceUser from "./ServiceUser";
 import AddOnUser from "./AddOnUser";
-import LoadingComponent from "../../layout/LoadingComponent";
 import { AddOnFormValues } from "../../models/addOn";
 import { Form, Formik } from "formik";
 import MyTextInput from "../../common/form/MyTextInput";
 import MyDateInput from "../../common/form/MyDateInput";
 import MyTextArea from "../../common/form/MyTextArea";
-import { Button, Container, Form as Form2, Segment } from "semantic-ui-react";
+import { Button, Container, Form as Form2, Grid, Segment } from "semantic-ui-react";
 import * as Yup from 'yup';
 import { toast } from "react-toastify";
 
@@ -25,12 +24,12 @@ export default observer(function BookingDashboard() {
     const [booking, setBooking] = useState<Booking>(new Booking());
 
     useEffect(() => {
-        if (services.length <= 1) loadServices();
+        if (services.length < 1) loadServices();
         if (selectedBooking) setBooking(selectedBooking);
     }, [services]);
 
     useEffect(() => {
-        if (addOns.length <= 1) loadAddOns();
+        if (addOns.length < 1) loadAddOns();
     }, [addOns])
 
     const setVehicleType = (vehicleType: string) => {
@@ -140,7 +139,7 @@ export default observer(function BookingDashboard() {
         tel: Yup.string().required("Phone number is required").matches(phoneRegExp, 'Phone number is not valid')
     })
 
-    if (loadingInitial) return <LoadingComponent content="Loading..." />
+    // if (loadingInitial) return <LoadingComponent content="Loading services..." />
 
     return (
         <>
@@ -154,12 +153,13 @@ export default observer(function BookingDashboard() {
 
             <StepHeader stepNo={2} title="SERVICE PACKAGES"
                 subTitle="which service is best for your vehicle" />
-
-            <ServiceUser selectedService={booking.service.id}
-                setService={setService}
-                services={servicesByVehicleType(booking.service.vehicleType)}
-                predicate={"user"}
-            />
+            <Grid container>
+                <ServiceUser selectedService={booking.service.id}
+                    setService={setService}
+                    services={servicesByVehicleType(booking.service.vehicleType)}
+                    predicate={"user"}
+                />
+            </Grid>
 
             <StepHeader stepNo={3} title="ADD-ON OPTIONS"
                 subTitle="Add services to your package." />
@@ -211,7 +211,9 @@ export default observer(function BookingDashboard() {
                                     positive type="submit" content="Submit" />
                                 <Button
                                     onClick={() => {
-                                        setBooking(new Booking());
+                                        setBooking(new Booking({
+                                            ...new Booking, service: { ...booking.service, id: "" }
+                                        }));
                                     }}
                                     floated="right" type="reset" content="Cancel" />
                             </Form>

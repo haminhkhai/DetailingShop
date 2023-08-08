@@ -44,13 +44,12 @@ export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
 
     return (
         <>
-            <Grid>
+            <Grid stackable>
                 <Grid.Row>
-                    <Grid.Column width={4}>
+                    <Grid.Column width={5}>
                         <Header sub color='teal' content='Step 1 - Add Photo' />
                         <PhotoWidgetDropzone setFiles={setFiles} />
                     </Grid.Column>
-                    <Grid.Column width={1} />
                     <Grid.Column width={4}>
                         <Header sub color='teal' content='Step 2 - Resize image' />
                         {files && files.length > 0 && (
@@ -64,7 +63,8 @@ export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
                             <>
                                 <div className='img-preview' style={{ minHeight: 200, overflow: 'hidden' }} />
                                 {error !== "" && <Label style={{ margin: '2em 0' }} color='red' content={error} />}
-                                <Button.Group style={{ padding: '2em 0' }} widths={2}>
+                                <br/>
+                                <Button.Group style={{ margin: '3em 0' }} widths={2}>
                                     <Button
                                         type='submit' disabled={error !== ""}
                                         loading={loading} onClick={onCrop}

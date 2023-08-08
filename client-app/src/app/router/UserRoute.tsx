@@ -1,5 +1,5 @@
 import NavBar from "../layout/NavBar";
-import { Container, Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 import { Outlet } from "react-router-dom";
 import ContactInfo from "../features/info/ContactInfo";
 import MapReveal from "../features/info/MapReveal";
@@ -9,10 +9,10 @@ export default function UserRoute() {
   return (
     <div className=''>
       <NavBar predicate="user" />
-      <Container fluid style={{ margin: '0', padding: '0' }}>
+      <Segment.Group style={{ margin: '0', padding: '0', border: '0' }}>
         {/* react-route package */}
         <Outlet />
-      </Container>
+      </Segment.Group>
       <ContactInfo />
       <MapReveal />
       <Footer />

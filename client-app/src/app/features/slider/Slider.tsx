@@ -56,7 +56,7 @@ export default observer(function Slider({ srcs, selectedPhoto, predicate }: Prop
                 showThumbs={false}
                 infiniteLoop={true}
                 showStatus={false}
-                swipeable={true}
+                swipeable={false}
                 autoPlay={true}
                 interval={4000}
                 onChange={(e) => setTarget(e)}

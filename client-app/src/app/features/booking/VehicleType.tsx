@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { Container, Grid, Segment } from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react";
 import { vehicleTypeOptions } from "../../models/service";
-import { Booking } from "../../models/booking";
 
 interface Props {
     style: object;

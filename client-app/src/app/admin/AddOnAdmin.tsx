@@ -4,7 +4,6 @@ import { useStore } from '../stores/store';
 import LoadingComponent from '../layout/LoadingComponent';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import MySelectInput from '../common/form/MySelectInput';
 import { vehicleTypeOptions } from '../models/service';
 
 export default observer(function AddOnAdmin() {

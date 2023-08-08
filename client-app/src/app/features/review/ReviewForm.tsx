@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Button, Container, Grid, Header, Image, Message, MessageHeader, Progress, Segment } from 'semantic-ui-react';
+import { useState } from 'react';
+import { Button, Grid, Header, Image, Progress, Segment } from 'semantic-ui-react';
 import PhotoWidgetDropzone from '../../common/imageUpload/PhotoWidgetDropzone';
 import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 import { Formik, Form } from 'formik';
-import { Review, ReviewDto } from '../../models/review';
+import { ReviewDto } from '../../models/review';
 import MyTextInput from '../../common/form/MyTextInput';
 import MyTextArea from '../../common/form/MyTextArea';
 import ReactStars from 'react-rating-star-with-type';
-import ReviewMessage from '../../common/modal/ReviewMessage';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
@@ -20,7 +19,7 @@ export default observer(function ReviewForm() {
     const [rating, setRating] = useState(0);
 
     //event fire when files state change
-    useEffect(() => console.log(files), [files]);
+    // useEffect(() => console.log(files), [files]);
 
     function handleSubmit(review: ReviewDto) {
         if (!rating) {
@@ -61,11 +60,11 @@ export default observer(function ReviewForm() {
                             <MyTextArea name='experience' placeholder='' label='Your Experience' rows={2} />
                             {
                                 addPhotoMode &&
-                                <Grid style={{ padding: '15px 0' }}>
-                                    <Grid.Column width={4}>
+                                <Grid doubling stackable style={{ padding: '15px 0' }}>
+                                    <Grid.Column width={8}>
                                         <PhotoWidgetDropzone setFiles={setFiles} />
                                     </Grid.Column>
-                                    <Grid.Column width={12}>
+                                    <Grid.Column width={8}>
                                         {files.map((file: any) => {
                                             return (<Image key={file.name} floated='right' size='small' src={file.preview} />)
                                         })}

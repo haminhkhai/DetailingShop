@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Container, Header, Image, Progress, Segment } from "semantic-ui-react";
+import { Button, Header, Image, Progress, Segment } from "semantic-ui-react";
 import MyTextInput from "../common/form/MyTextInput";
 import MyTextArea from "../common/form/MyTextArea";
 import { useStore } from "../stores/store";

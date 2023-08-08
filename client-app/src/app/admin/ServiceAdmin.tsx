@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useStore } from "../stores/store";
 import { Button, Divider, Grid, Header, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../layout/LoadingComponent";
 import ServiceUser from "../features/booking/ServiceUser";
-import { vehicleTypeOptions } from "../models/service";
 
 export default observer(function ServiceAdmin() {
     const { serviceStore: { services, loadServices, groupServices, loadingInitial } } = useStore();
@@ -37,9 +36,9 @@ export default observer(function ServiceAdmin() {
                                         <Header color='teal' as='h3' content={group} />
                                     </Grid.Column>
                                 </Grid.Row>
-                                <Grid.Row>
+                          
                                     <ServiceUser services={services} predicate={"admin"} setService={() => { }} />
-                                </Grid.Row>
+                                
                                 {(i < groupServices.length - 1) && <Divider />}
                             </Fragment>
                         ))}

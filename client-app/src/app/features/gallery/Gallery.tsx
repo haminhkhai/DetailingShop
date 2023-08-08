@@ -4,13 +4,12 @@ import { useStore } from "../../stores/store";
 import Slider from "../slider/Slider";
 import { observer } from "mobx-react-lite";
 import { Photo } from "../../models/photo";
-import LoadingComponent from "../../layout/LoadingComponent";
 
 export default observer(function Gallery() {
     const { modalStore, galleryStore: { loadingInitial, loadGalleries, galleries } } = useStore();
 
     useEffect(() => {
-        if (galleries.length <= 1) loadGalleries();
+        if (galleries.length < 1) loadGalleries();
     }, [galleries])
 
     const handleSlider = (photos: Photo[] | undefined) => {
@@ -19,7 +18,7 @@ export default observer(function Gallery() {
         }
     }
 
-    if (loadingInitial) return <LoadingComponent content="Loading Galleries..." />
+    // if (loadingInitial) return <LoadingComponent content="Loading Galleries..." />
 
     return (
         <Segment basic style={{ padding: '8em 0em' }}>

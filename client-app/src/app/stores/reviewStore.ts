@@ -44,7 +44,6 @@ export default class ReviewStore {
                 this.reviews.forEach(review => {
                     this.averageRating = (this.reviews.reduce((sum, rating) => sum + rating.rating, 0) / this.reviews.length).toFixed(1)
                     review.date = new Date(review.date);
-                    console.log(this.averageRating);
                 });
                 this.loadingInitial = false
             });

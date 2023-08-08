@@ -50,6 +50,7 @@ namespace API.Extensions
                         var updatedHost = pgHost.Replace("flycast", "internal");
                         connStr = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
                     }
+                    opt.UseNpgsql(connStr);
                 }
             );
             services.AddCors(opt =>
