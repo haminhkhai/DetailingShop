@@ -11,6 +11,8 @@ import { store } from "../stores/store";
 import { Photo, PhotoDto } from "../models/photo";
 import { Carousel } from "../models/carousel";
 import { PaginatedResult } from "../models/pagination";
+import { Category } from "../models/category";
+import { Blog } from "../models/blog";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -69,7 +71,6 @@ axios.interceptors.response.use(async response => {
             router.navigate('/not-found');
             break;
         case 500:
-            console.log("sokratis");
             store.commonStore.setServerError(data);
             router.navigate('/server-error');
             break;
@@ -103,7 +104,8 @@ const Photos = {
             }
         }
 
-        const response = await axios.post<PhotoDto>('https://api.cloudinary.com/v1_1/de04qqilt/image/upload', formData, config);
+        const response = await axios.post<PhotoDto>
+            ('https://api.cloudinary.com/v1_1/de04qqilt/image/upload', formData, config);
         return responseBody(response);
     }
 }
@@ -162,6 +164,32 @@ const Carousels = {
     delete: (id: number) => request.del(`/carousel/${id}`)
 }
 
+const ReCaptcha = {
+    post: (token: string) => axios.post('/recaptcha', token,
+        {
+            headers: { 'Content-Type': 'application/json' }
+        }).then(responseBody)
+}
+
+const Categories = {
+    add: (category: Category) => request.post('/category', category),
+    list: () => request.get<Category[]>('/category'),
+    delete: (id: string) => request.del(`/category/${id}`),
+    details: (id: string) => request.get<Category>(`/category/${id}`),
+    edit: (category: Category) => request.put('/category', category)
+}
+
+const Blogs = {
+    add: (blog: Blog) => request.post('/blog', blog),
+    list: () => request.get<Blog[]>('/blog'),
+    listByCategory: (category: string) => request.get<Blog[]>(`/blog/${category}`),
+    details: (id: string, category: string) => request.get<Blog>(`/blog/${category}/${id}`),
+    search: (params: URLSearchParams) =>
+        axios.get<Blog[]>('/blog/search', { params }).then(responseBody),
+    edit: (blog: Blog) => request.put('/blog', blog),
+    delete: (id: string) => request.del(`/blog/${id}`)
+}
+
 const agent = {
     Account,
     About,
@@ -171,7 +199,10 @@ const agent = {
     Bookings,
     Galleries,
     Photos,
-    Carousels
+    Carousels,
+    ReCaptcha,
+    Categories,
+    Blogs
 }
 
 export default agent;

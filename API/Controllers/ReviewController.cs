@@ -1,3 +1,4 @@
+using Application.ReCaptcha;
 using Application.Reviews;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateReview(ReviewDto review)
         {
-            return HandleResult(await Mediator.Send(new Add.Command { Review = review }));
+            var captchaResult = await Mediator.Send(new Verify.Command { Token = review.CaptchaToken });
+            if (captchaResult.IsSuccess)
+                return HandleResult(await Mediator.Send(new Add.Command { Review = review }));
+            else 
+                return BadRequest("I'm top");
         }
 
         [AllowAnonymous]

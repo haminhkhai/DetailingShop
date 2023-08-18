@@ -34,6 +34,7 @@ export class ReviewDto {
     name = "";
     experience = "";
     photos?: PhotoDto[] = [];
+    captchaToken = "";
     constructor(reviewDto?: ReviewDto) {
         Object.assign(this, reviewDto)
     }

@@ -72,6 +72,7 @@ export default class ReviewStore {
             this.setProgress(100);
             runInAction(() => {
                 // this.reviews.push(review);
+                this.uploading = false;
                 this.setProgress(0);
             })
         } catch (error) {

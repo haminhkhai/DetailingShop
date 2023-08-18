@@ -15,8 +15,7 @@ export default function NavBar({ predicate }: Props) {
     const { userStore: { user, logout } } = useStore();
 
     const isMobile = useMediaQuery({
-
-        query: predicate !== 'admin' ? '(max-width: 576px)' : '(max-width: 1200px)'
+        query: '(max-width: 1200px)'
     })
 
     window.onscroll = function () { scrollFunction() };
@@ -25,16 +24,17 @@ export default function NavBar({ predicate }: Props) {
         if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500)
             setOpacity("100%");
         else {
-            if (!isMobile)
+            if (!isMobile && predicate !== 'admin')
                 setOpacity("60%");
         }
-
 
     }
 
     useEffect(() => {
-        if (isMobile) setOpacity("100%");
-    }, [isMobile])
+        if (isMobile || predicate === 'admin') {
+            setOpacity("100%");
+        }
+    }, [isMobile, predicate])
 
     const renderLinks = (toogle: () => void) => {
         return <Container className="menu-wrapper">
@@ -42,7 +42,7 @@ export default function NavBar({ predicate }: Props) {
                 onClick={toogle}
                 name='logo'
                 as={NavLink}
-                to={predicate === 'user' ? '/' : '/admin/carousels'}
+                to={predicate === 'user' ? '/' : '/admin/carousel'}
             >
                 <img src="/assets/logo.png"
                     width="35px" height="35px" style={{ margin: "0 auto" }} alt="" />
@@ -57,16 +57,16 @@ export default function NavBar({ predicate }: Props) {
                         to={'/admin/aboutus'}
                     />
                     <Menu.Item
-                        name='SERVICES'
+                        name='SERVICE'
                         as={NavLink}
                         onClick={toogle}
-                        to={'/admin/services'}
+                        to={'/admin/service'}
                     />
                     <Menu.Item
-                        name='ADD-ONS'
+                        name='ADD-ON'
                         as={NavLink}
                         onClick={toogle}
-                        to={'/admin/addons'}
+                        to={'/admin/addon'}
                     />
                 </>
             }
@@ -74,26 +74,32 @@ export default function NavBar({ predicate }: Props) {
                 name='BOOKING'
                 as={NavLink}
                 onClick={toogle}
-                to={predicate === 'user' ? '/booking' : '/admin/bookings'}
+                to={predicate === 'user' ? '/booking' : '/admin/booking'}
             />
             <Menu.Item
-                name='GALLERIES'
+                name='GALLERY'
                 as={NavLink}
                 onClick={toogle}
-                to={predicate === 'user' ? '/gallery' : '/admin/galleries'}
+                to={predicate === 'user' ? '/gallery' : '/admin/gallery'}
             />
             <Menu.Item
-                name='REVIEWS'
+                name='BLOG'
                 as={NavLink}
                 onClick={toogle}
-                to={predicate === 'user' ? '/reviews' : '/admin/reviews'}
+                to={predicate === 'user' ? '/blog' : '/admin/blog'}
+            />
+            <Menu.Item
+                name='REVIEW'
+                as={NavLink}
+                onClick={toogle}
+                to={predicate === 'user' ? '/review' : '/admin/review'}
             />
             {user &&
                 <Menu.Item position='right' onClick={toogle} as={Label}>
                     <Image src='/assets/user.png' avatar spaced='right' />
                     <Dropdown pointing='top left' text={user ? user.username : ""}>
                         <Dropdown.Menu>
-                            <Dropdown.Item as={NavLink} to={'/admin/carousels'}
+                            <Dropdown.Item as={NavLink} to={'/admin/carousel'}
                                 text='Admin Panel' icon='setting' />
                             <Dropdown.Item as={NavLink} to={'/'}
                                 text='User Page' icon='user' />

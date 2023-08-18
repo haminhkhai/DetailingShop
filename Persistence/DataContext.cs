@@ -23,6 +23,8 @@ namespace Persistence
         public DbSet<BookingAddOn> BookingAddOns { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<Carousel> Carousels { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

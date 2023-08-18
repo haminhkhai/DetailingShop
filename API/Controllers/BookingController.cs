@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Bookings;
 using Application.Core;
+using Application.ReCaptcha;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,12 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateBooking(BookingDto booking)
         {
-            return HandleResult(await Mediator.Send(new Add.Command { Booking = booking }));
+            var captchaResult = await Mediator.Send(new Verify.Command { Token = booking.CaptchaToken });
+            if (captchaResult.IsSuccess)
+            {
+                return HandleResult(await Mediator.Send(new Add.Command { Booking = booking }));
+            }
+            return BadRequest("I'm top");
         }
 
         [HttpGet]

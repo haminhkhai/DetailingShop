@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { Container, Divider, Grid, Header, List, Segment } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
+import LoadingComponent from '../LoadingComponent';
+import { observer } from 'mobx-react-lite';
 
 
-export default function Footer() {
+export default observer(function Footer() {
     const { aboutUsStore: { loadAboutUs, aboutUs } } = useStore();
 
     useEffect(() => {
-        if (!aboutUs) loadAboutUs();
+        if (aboutUs.body === "") {
+            loadAboutUs();
+        }
     }, [aboutUs])
 
     return (
@@ -23,7 +27,7 @@ export default function Footer() {
                             <span>
                                 {aboutUs.body}
                             </span>
-                            <img src="./assets/logo.png" width="60px" height="60px" alt="" style={{margin:'10px auto'}}/>
+                            <img src="/assets/logo.png" width="60px" height="60px" alt="" style={{ margin: '10px auto' }} />
                         </Grid.Column>
                         <Grid.Column>
                             {/* <Header color='grey' as='h3'>
@@ -56,4 +60,4 @@ export default function Footer() {
             </Container>
         </Segment>
     )
-}
+})

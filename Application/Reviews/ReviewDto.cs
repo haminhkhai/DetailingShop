@@ -13,5 +13,6 @@ namespace Application.Reviews
         public string Name { get; set; }
         public string Experience { get; set; }
         public List<PhotoDto> Photos { get; set; }
+        public string CaptchaToken { get; set; }
     }
 }

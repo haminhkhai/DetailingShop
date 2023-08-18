@@ -9,6 +9,8 @@ import BookingStore from "./bookingStore";
 import GalleryStore from "./galleryStore";
 import CommonStore from "./commonStore";
 import { CarouselStore } from "./carouselStore";
+import { CategoryStore } from "./categoryStore";
+import { BlogStore } from "./blogStore";
 
 interface Store {
     modalStore: ModalStore;
@@ -20,6 +22,8 @@ interface Store {
     bookingStore: BookingStore;
     galleryStore: GalleryStore;
     carouselStore: CarouselStore;
+    categoryStore: CategoryStore;
+    blogStore: BlogStore;
     commonStore: CommonStore;
 }
 
@@ -33,6 +37,8 @@ export const store: Store = {
     bookingStore: new BookingStore(),
     galleryStore: new GalleryStore(),
     carouselStore: new CarouselStore(),
+    categoryStore: new CategoryStore(),
+    blogStore: new BlogStore(),
     commonStore: new CommonStore()
 }
 

@@ -28,11 +28,18 @@ export default class BookingStore {
     }
 
     createBooking = async (booking: Booking) => {
+        this.loading = true;
         try {
             await agent.Bookings.add(booking);
-            toast.info("Thanks for booking, we'll contact again to confirm")
+            runInAction(() => {
+                this.loading = false;
+            })
+            toast.info("Thanks for booking, we'll contact again to confirm");
         } catch (error) {
             console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            })
         }
     }
 
@@ -79,5 +86,21 @@ export default class BookingStore {
 
     setSelectedBooking = (booking: Booking) => {
         this.selectedBooking = booking;
+    }
+
+    verifyCaptcha = async (token: string) => {
+        this.loadingInitial = true;
+        try {
+            const response = await agent.ReCaptcha.post(token);
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            return response;
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+        }
     }
 }

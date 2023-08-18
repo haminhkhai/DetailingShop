@@ -7,15 +7,15 @@ import Footer from "../layout/footer/Footer";
 
 export default function UserRoute() {
   return (
-    <div className=''>
+    <>
       <NavBar predicate="user" />
-      <Segment.Group style={{ margin: '0', padding: '0', border: '0' }}>
+      <Segment.Group style={{ margin: '0', padding: '0', border: '0', boxShadow: 'none' }}>
         {/* react-route package */}
         <Outlet />
       </Segment.Group>
       <ContactInfo />
       <MapReveal />
       <Footer />
-    </div >
+    </>
   )
 }

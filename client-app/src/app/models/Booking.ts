@@ -13,7 +13,7 @@ export interface Booking {
     message: string;
     service: Service;
     bookingAddOns: AddOnFormValues[];
-
+    captchaToken: string;
 }
 
 export class Booking implements Booking {
@@ -27,6 +27,7 @@ export class Booking implements Booking {
     message = "";
     service = new Service();
     bookingAddOns: AddOnFormValues[] = [];
+    captchaToken: string = "";
 
 
     constructor(booking?: Booking) {
@@ -41,6 +42,7 @@ export class Booking implements Booking {
             this.message = booking.message;
             this.service = booking.service;
             this.bookingAddOns = booking.bookingAddOns;
+            this.captchaToken = booking.captchaToken;
         }
     }
 }

@@ -2,7 +2,6 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { AddOn, AddOnFormValues } from "../models/addOn"
 import agent from "../api/agent";
 import { toast } from "react-toastify";
-import { store } from "./store";
 
 export default class AddOnStore {
     addOnRegistry = new Map<string, AddOnFormValues>();
@@ -19,7 +18,7 @@ export default class AddOnStore {
         try {
             const addOns = await agent.AddOns.list();
             runInAction(() => {
-                if (addOns.length > this.addOns.length) this.addOns = addOns;
+                if (addOns.length > this.addOns.length) {this.addOns = addOns;}
                 this.loadingInitial = false
             });
         } catch (error) {
@@ -80,9 +79,10 @@ export default class AddOnStore {
 
     createAddOn = async (addOn: AddOn) => {
         try {
-            const response = await agent.AddOns.add(addOn);
+            const responseAddOn = await agent.AddOns.add(addOn);
             runInAction(() => {
-                this.setAddOn(response)
+                this.addOns.push(responseAddOn);
+                this.setAddOn(responseAddOn);
                 toast.info("Saved");
             });
         } catch (error) {
@@ -92,10 +92,11 @@ export default class AddOnStore {
 
     editAddOn = async (addOn: AddOn) => {
         try {
-            const response = await agent.AddOns.edit(addOn);
+            const responseAddOn = await agent.AddOns.edit(addOn);
             runInAction(() => {
-                if (response.id) {
-                    this.addOnRegistry.set(addOn.id, response);
+                if (responseAddOn.id) {
+                    this.addOns[this.addOns.indexOf(this.addOns.find(a => a.id === responseAddOn.id)!)] = responseAddOn;
+                    this.addOnRegistry.set(addOn.id, responseAddOn);
                 }
                 toast.info("Saved");
             });

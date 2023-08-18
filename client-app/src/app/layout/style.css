@@ -16,6 +16,11 @@
     src: url('../../../public/assets/font/cbs-meta.ttf');
 }
 
+@font-face {
+    font-family: 'theme-icon-feature';
+    src: url('../../../public/assets/font/theme-icon-feature.ttf');
+}
+
 * {
     box-sizing: border-box;
 }
@@ -105,14 +110,11 @@ body {
     }
 }
 
-.package-introducing {
-    /* text-align: center; */
-    /* height: 120px;
-    margin-top: 110px; */
-}
+.package-introducing {}
 
-.package-introducing h2 {
+.package-introducing h1 {
     font-size: 29px;
+    letter-spacing: 2px;
 }
 
 .package-introducing .packages-divider {
@@ -387,6 +389,119 @@ body {
     padding: 6px 0 0 105px;
 }
 
+.process-booking-bar {
+    background-color: rgb(229 229 229);
+    height: 150px;
+}
+
+.process-booking-bar .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.process-booking-bar .container span {
+    font-family: Lato;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 26px;
+
+    /* line-height: 150px; */
+}
+
+.process-booking-bar .container a {
+    margin-left: 10px;
+    /* bottom: 4px; */
+}
+
+.ui.basic.segment.process-container {
+    margin: 0;
+    background-image: linear-gradient(to bottom, rgba(29, 29, 29, 0.822),
+            rgba(39, 39, 39, 0.267)),
+        url("../../../public/assets/sliderImages/Detail2.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+}
+
+@media screen and (max-width:1400px) {
+    .ui.basic.segment.process-container {
+        background-image: linear-gradient(to bottom, rgba(29, 29, 29, 0.822),
+                rgba(39, 39, 39, 0.267)),
+            url("../../../public/assets/sliderImages/Detail5.jpg");
+    }
+}
+
+@media screen and (max-width:750px) {
+    .ui.basic.segment.process-container {
+        background-image: linear-gradient(to bottom, rgba(29, 29, 29, 0.822),
+                rgba(39, 39, 39, 0.267)),
+            url("../../../public/assets/sliderImages/Detail4.jpg");
+        background-size: cover;
+    }
+}
+
+.ui.container .process-grid {
+    padding-left: 4em;
+}
+
+@media screen and (max-width:992px) {
+    .ui.container .process-grid {
+        padding-left: 0em;
+    }
+
+    .ui.container .process-grid .sixteen.wide.column {
+        padding-bottom: 3em;
+    }
+}
+
+.process-circle {
+    float: left;
+    display: flex;
+    width: 108px;
+    height: 108px;
+    line-height: 80px;
+    border-radius: 100%;
+    border: 1px solid #a1a1a1;
+    align-items: center;
+    margin: 0 auto;
+    /* background-color: #199CDB; */
+}
+
+.process-circle .icon {
+    margin: 0 auto;
+    font-family: theme-icon-feature;
+    font-size: 48px;
+    font-weight: 400;
+    color: white;
+}
+
+.process-arrow-container {
+    margin: 0 auto;
+    width: 40px;
+}
+
+.process-arrow-circle {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: 0.5px solid #ffffff;
+    align-items: center;
+}
+
+.process-arrow-container .process-arrow-circle .icon {
+    margin: auto auto;
+    font-size: 1.2em;
+    color: white;
+}
+
+.ui.header.process-header {
+    color: white;
+    font-size: 17px;
+}
+
 .add-on-option-container {}
 
 .add-on-option-wrapper {
@@ -467,4 +582,71 @@ body {
 .toast-position {
     width: 70%;
     top: 6em !important;
+}
+
+.map-wrapper {
+    /* width: 100px; */
+    height: 90px;
+    transition: width 1s, height 1s;
+}
+
+.map-wrapper:hover {
+    height: 500px;
+}
+
+.social-share-container span {
+    vertical-align: middle;
+    color: rgb(138, 138, 138);
+}
+
+.social-share-container .button-wrap {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.social-share-container .social-circle {
+    margin-left: 13px;
+    display: inline-block;
+    border: 1px solid rgb(194, 194, 194);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+.social-circle:hover {
+    cursor: pointer;
+    border: 0;
+    background-color: #199CDB;
+}
+
+.social-circle:hover i {
+    color: whitesmoke;
+}
+
+.social-share-container .button-wrap .social-circle i {
+    display: block;
+    margin: 8px auto;
+}
+
+.search-wrap {
+    width: 100%;
+    display: flex;
+}
+
+.search-wrap .search-input {
+    width: 100%;
+    border: 1px solid #474747;
+
+    padding: 5px;
+    height: 35px;
+    font-family: Lato;
+    font-size: 16px;
+    padding-right: 40px;
+    outline: none;
+}
+
+.search-wrap .search-icon {
+    position: relative;
+    right: 30px;
+    top: 3px;
 }

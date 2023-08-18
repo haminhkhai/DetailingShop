@@ -7,8 +7,8 @@ export default observer(function AboutUsHome() {
     const { aboutUsStore: { loadAboutUs, aboutUs} } = useStore();
 
     useEffect(() => {
-        loadAboutUs()
-    }, [loadAboutUs]);
+        if (aboutUs.header === "") loadAboutUs()
+    }, [aboutUs]);
 
     return (
         <Segment basic clearing style={{ padding: '8em 0em' }} vertical>

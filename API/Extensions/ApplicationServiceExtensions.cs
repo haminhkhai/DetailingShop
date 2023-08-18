@@ -66,6 +66,7 @@ namespace API.Extensions
             services.AddValidatorsFromAssemblyContaining<Add>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddHttpClient();
 
             return services;
         }

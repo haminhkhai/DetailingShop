@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import NavBar from '../../layout/NavBar';
-import Slider from '../slider/Slider';
+import Slider from '../sliders/Slider';
 import ContactInfo from '../info/ContactInfo';
 import MapReveal from '../info/MapReveal';
 import { Container, Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import Footer from '../../layout/footer/Footer';
 import AboutUsHome from '../about-us/AboutUsHome';
-import VehicleType from '../booking/VehicleType';
+import VehicleType from '../bookings/VehicleType';
 import { Photo } from '../../models/photo';
-import ServiceUser from '../booking/ServiceUser';
+import ServiceUser from '../bookings/ServiceUser';
 import { Booking } from '../../models/booking';
 import { Service, vehicleTypeOptions } from '../../models/service';
 import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import LoadingComponent from '../../layout/LoadingComponent';
+import Process from '../about-us/Process';
 
 export default observer(function HomePage() {
     const { serviceStore: { servicesByVehicleType, services, loadServices, loadingInitial },
@@ -25,15 +26,19 @@ export default observer(function HomePage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (services.length <= 1) loadServices();
-        if (selectedBooking) setBooking(selectedBooking);
-        else setVehicleType(vehicleTypeOptions[0].value);
-    }, [services])
+        if (services.length < 1) loadServices();
+        if (selectedBooking) {
+            setBooking(selectedBooking)
+        }
+        else {
+            setVehicleType(vehicleTypeOptions[0].value);
+        }
+    }, [])
 
     useEffect(() => {
         if (carousels.length < 1) loadCarousels();
         // setSrcs(prepareSlider(carousels))
-    }, [carousels])
+    }, [])
 
     const setVehicleType = (vehicleType: string) => {
         setBooking(current => {
@@ -66,10 +71,7 @@ export default observer(function HomePage() {
         navigate('/booking');
     }
 
-
-
     if (loadingInitial) return <LoadingComponent content='Loading page...' />
-
 
     return (
 
@@ -78,8 +80,19 @@ export default observer(function HomePage() {
 
             <Slider predicate='carousel' srcs={prepareSlider(carousels)} />
 
+            <Segment className='package-introducing' basic style={{ padding: '8em 0em 0em 0em' }}>
+                <Container text textAlign='center'>
+                    <Header as='h1'>WHO IS AUTOSPA</Header>
+                    <Divider className='packages-divider' />
+                    <span>Car wash & detailling service</span>
+                </Container>
+            </Segment>
+
             <AboutUsHome />
-            <Segment className='package-introducing' basic style={{ padding: '0em 0em 5em 0em' }}>
+
+            <Process />
+
+            <Segment className='package-introducing' basic style={{ padding: '4em 0em 5em 0em' }}>
                 <Container text textAlign='center'>
                     <Header as='h1'>SERVICE PACKAGES</Header>
                     <Divider className='packages-divider' />
@@ -91,11 +104,11 @@ export default observer(function HomePage() {
                 setVehicleType={setVehicleType} style={{ padding: '0' }} />
             <Segment basic style={{ padding: '5em 0 0 0' }}>
                 <Grid container>
-                <ServiceUser selectedService={booking.service.id}
-                    setService={setService}
-                    services={servicesByVehicleType(booking.service.vehicleType)}
-                    predicate={"user"}
-                />
+                    <ServiceUser selectedService={booking.service.id}
+                        setService={setService}
+                        services={servicesByVehicleType(booking.service.vehicleType)}
+                        predicate={"user"}
+                    />
                 </Grid>
             </Segment>
 

@@ -4,6 +4,7 @@ using Domain;
 using Persistence;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Bookings
 {

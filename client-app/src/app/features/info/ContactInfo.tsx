@@ -4,7 +4,7 @@ import { Container, Grid, Header, Icon, Segment } from "semantic-ui-react";
 
 export default function ContactInfo() {
     return (
-        <Segment basic className="contact-info-container" style={{ padding: '8em 0em',margin:'15px 0 0 0'}}>
+        <Segment clearing basic className="contact-info-container" style={{ padding: '8em 0em' }}>
             <Grid verticalAlign="middle" container textAlign="center" stackable doubling columns={3}>
                 <Grid.Column>
                     <Grid>

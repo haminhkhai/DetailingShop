@@ -51,7 +51,7 @@ export default function NavbarMb({ predicate, renderLinks }: Props) {
             >
                 <Menu.Item
                     as={Link}
-                    to={predicate === 'user' ? '/' : '/admin/carousels'}
+                    to={predicate === 'user' ? '/' : '/admin/carousel'}
                 >
                     <img src="/assets/logo.png" width="35px" height="35px" alt="" />
                 </Menu.Item>

@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { AboutUs } from "../models/aboutUs";
 import agent from "../api/agent";
+import { toast } from "react-toastify";
 
 export default class AboutUsStore {
     aboutUs: AboutUs = new AboutUs();
@@ -14,7 +15,9 @@ export default class AboutUsStore {
     loadAboutUs = async () => {
         try {
             let aboutUs = await agent.About.details();
-            runInAction(() => this.aboutUs = aboutUs);
+            runInAction(() => {
+                this.aboutUs = aboutUs;
+            });
         } catch (error) {
             console.log(error);
         }
@@ -23,6 +26,7 @@ export default class AboutUsStore {
     editAboutUs = async (aboutUs: AboutUs) => {
         try {
             await agent.About.edit(aboutUs);
+            toast.info("Saved");
             // runInAction(() => this.aboutUs = aboutUs);
         } catch (error) {
             console.log(error);

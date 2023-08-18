@@ -19,5 +19,6 @@ namespace Application.Bookings
         public string Message { get; set; }
         public Service Service { get; set; }
         public ICollection<AddOnDto> BookingAddOns { get; set; }
+        public string CaptchaToken { get; set; }
     }
 }

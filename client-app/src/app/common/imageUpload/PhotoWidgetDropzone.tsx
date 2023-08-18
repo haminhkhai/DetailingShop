@@ -35,7 +35,7 @@ export default function PhotoWidgetDropzone({ setFiles }: Props) {
         <div {...getRootProps()} style={isDragActive ? { ...dzStyles, ...dzActive } : dzStyles}>
             <input name='files' {...getInputProps()} />
             <Icon name='upload' size='huge' />
-            <Header content='Drop images here or click to select images' />
+            <Header as='h4' content='Drop images here or click to select images' />
         </div>
     )
 }

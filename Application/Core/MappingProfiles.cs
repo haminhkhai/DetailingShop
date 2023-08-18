@@ -48,6 +48,8 @@ namespace Application.Core
             CreateMap<PhotoDto, Photo>()
                 .ForMember(b => b.Id, m => m.MapFrom(a => a.Public_Id));
             CreateMap<ReviewDto, Review>();
+
+            CreateMap<Blog, Blog>();
         }
     }
 }
